@@ -58,3 +58,14 @@ Open questions for Oleh are marked **[open]**.
 - **Checked against references.** The ISO numeric codes match `i18n-iso-countries` for all 194, every
   code has a flag in `flag-icons`, and every country in the game has a shape in world-atlas 1:50m
   (1:110m misses eight microstates, so the map uses 1:50m).
+
+## Checking answers
+
+- **What does not count.** Case, spaces, hyphens, apostrophes, dots, accents on Latin letters, and ґ
+  versus г. "гвінея бісау" is right for Гвінея-Бісау.
+- **Typos.** Names up to 4 letters must be exact, up to 8 letters may have one typo, longer ones
+  two. Two swapped neighbouring letters count as one typo. A misspelt answer passes only when it is
+  closer to the right name than to any other country's, so "Ірак" never passes for "Іран". After a
+  misspelt answer the game shows the right spelling.
+- **Another country's name** is not just "wrong": the kid sees "Ні, це не Ірак", and in the capital
+  level "Варшава — столиця країни Польща".

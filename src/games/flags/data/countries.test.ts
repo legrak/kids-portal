@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { normalizeAnswer } from "../logic/answers";
 import { COUNTRIES, type Country, type LocalizedNames } from "./countries";
 
 const LANGUAGES = ["uk", "en"] as const;
@@ -52,14 +53,14 @@ describe("COUNTRIES", () => {
     expect(withStraightApostrophe).toEqual([]);
   });
 
-  test("no two countries share a name, a capital or an alias of them in one language", () => {
+  test("no two countries share a name, a capital or an alias as the game compares them", () => {
     const clashes: string[] = [];
     for (const language of LANGUAGES) {
       for (const textsOf of [namesOf, capitalsOf]) {
         const owners = new Map<string, string>();
         for (const country of COUNTRIES) {
           for (const text of textsOf(country[language])) {
-            const key = text.toLocaleLowerCase();
+            const key = normalizeAnswer(text);
             const owner = owners.get(key);
             if (owner && owner !== country.code) clashes.push(`${text}: ${owner}, ${country.code}`);
             owners.set(key, country.code);
