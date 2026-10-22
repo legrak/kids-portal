@@ -3,9 +3,9 @@
 Autonomous session started 2026-10-22. Oleh said "працюй автономно ... коміть і працюй сам", so no
 questions before the start; every open point is a decision in `decisions.md`.
 
-Repo: `/Users/olehrak/repos/personal/kids-portal` (new). Work happens in the worktree
-`worktrees/flag-game` on branch `flag-game`. Never push, open a PR or merge. The task notes live in
-this repo under `docs/flag-game/`; the Payslick backlog is not used.
+Repo: `/Users/olehrak/repos/personal/kids-portal` (new), remote `legrak/kids-portal` on GitHub.
+Work happens in the repo root on `main`. The task notes live in this repo under `docs/flag-game/`;
+the Payslick backlog is not used.
 
 ## Scope (from Oleh)
 

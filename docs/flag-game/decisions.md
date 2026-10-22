@@ -6,10 +6,9 @@ The open questions of the first session were all confirmed by Oleh.
 
 - **No pre-start questions.** He said "працюй автономно ... працюй сам", so I took the "can't answer
   now" branch of the autonomous-session flow.
-- **Repo layout.** `main` has one initial commit (README, .gitignore); the work is in the worktree
-  `worktrees/flag-game` on the branch `flag-game`. `worktrees/` is excluded through
-  `.git/info/exclude`, not `.gitignore`. The task notes are committed under `docs/flag-game/`, as
-  Oleh asked mid-session.
+- **Repo layout.** The session worked in a worktree on a `flag-game` branch; at the end Oleh asked
+  to work in the repo root on `main` only, so the branch was fast-forwarded into `main` and the
+  worktree removed. The task notes are committed under `docs/flag-game/`, as Oleh asked mid-session.
 - **Review.** Each commit gets one general reviewer agent (correctness, naming, readability, plus
   tests or architecture when the diff calls for it), as he asked for no multi-lens review.
 - **Instructions added mid-session.** Everything lives in the frontend (static site on Cloudflare,
