@@ -77,3 +77,17 @@ Open questions for Oleh are marked **[open]**.
   misspelt answer the game shows the right spelling.
 - **Another country's name** is not just "wrong": the kid sees "Ні, це не Ірак", and in the capital
   level "Варшава — столиця країни Польща".
+
+## Game rules
+
+- **Rounds of 10 flags.** After each round comes a summary with the stars and three choices: the
+  next 10 flags of the same game, a replay of the hard ones (at most one star), or the menu.
+  Flags already shown are not repeated within a game; a new game from the menu or a page reload
+  starts over, as Oleh asked.
+- **Stars per flag.** 3 without hints, 2 with one or two hints, 1 with more. Giving up gives 0, or 1
+  if the country was found and only the capital was not. Wrong attempts cost nothing.
+- **Hints, each easier.** Country: where it is (region and map), then the letter slots, then one
+  letter at a time from the left. The English level adds the Ukrainian name after the map. The
+  capital starts with the letter slots. The last letter is always left to type.
+- **Filling every slot checks the answer at once**, so with the slots on there is nothing to press.
+- **"Не знаю" ends the turn** and shows the answer (with the capital, in the capital level).
