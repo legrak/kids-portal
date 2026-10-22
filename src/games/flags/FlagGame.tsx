@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from "react";
-import { celebrate } from "./celebrate";
+import { celebrate } from "../../shared/celebrate";
+import { playSound } from "../../shared/sound";
 import { MenuScreen } from "./components/MenuScreen";
 import { PlayScreen } from "./components/PlayScreen";
 import { SummaryScreen } from "./components/SummaryScreen";
@@ -9,7 +10,6 @@ import { feedbackFor } from "./feedback";
 import { type GameState, gameReducer, initialGameState } from "./logic/game";
 import { countryPool, shuffle } from "./logic/pool";
 import { loadSettings, type StoredSettings, saveSettings } from "./settingsStorage";
-import { playSound } from "./sound";
 
 /** "Guess the country by its flag": the menu, the rounds and their summaries. */
 export function FlagGame() {

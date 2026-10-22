@@ -1,5 +1,5 @@
+import type { SoundName } from "../../shared/sound";
 import type { GameState, Turn } from "./logic/game";
-import type { SoundName } from "./sound";
 
 export interface Feedback {
   sound: SoundName | null;
