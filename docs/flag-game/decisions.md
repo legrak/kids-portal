@@ -91,3 +91,31 @@ Open questions for Oleh are marked **[open]**.
   capital starts with the letter slots. The last letter is always left to type.
 - **Filling every slot checks the answer at once**, so with the slots on there is nothing to press.
 - **"Не знаю" ends the turn** and shows the answer (with the capital, in the capital level).
+
+## Interface
+
+- **Typing.** The answer is a real text field, so phones and tablets open their own keyboard (Oleh's
+  request); the on-screen keyboard shows only on computers (a fine pointer). On a computer, keys
+  type Ukrainian letters by position even when the layout is English or Russian, and a warning
+  shows when letters of the wrong alphabet get in. The field keeps the focus between flags, so a
+  phone keyboard stays open.
+- **Layout.** One column on phones and tablets in portrait, two (flag and map left, answer right)
+  from 1024 px. The Play button in the menu stays at the bottom of the screen.
+- **After an answer.** A right answer: a melody, confetti, stars, and the next flag after 2.6 s. Giving
+  up: the answer, the map, and the next flag after 5 s. "Далі →" or Enter go on at once.
+- **Extras I added:** the "well-known countries" set and the part-of-the-world choice; stars and
+  coloured progress dots; the replay of hard flags; the English level shows the Ukrainian name as a
+  hint; another country's name in a wrong answer is named; the map zooms in on a tap; a mute button.
+
+## Deploy
+
+- **Cloudflare Workers with static assets** (`wrangler.jsonc`, no Worker code), which Cloudflare now
+  recommends over Pages for new sites. `bun run deploy` deploys by hand; the GitHub Actions workflow
+  deploys `main` after the checks and e2e tests pass. It needs the `CLOUDFLARE_API_TOKEN` and
+  `CLOUDFLARE_ACCOUNT_ID` secrets. Checked with `wrangler deploy --dry-run` only: there are no keys.
+
+## Not verified
+
+- A real deploy (no Cloudflare keys) and a real GitHub Actions run (no remote).
+- Real phones and tablets: the e2e tests run in Chromium with phone and tablet emulation. Worth a
+  check on an iPhone and an Android phone: the keyboard staying open between flags, sounds.
