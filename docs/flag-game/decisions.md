@@ -28,3 +28,33 @@ Open questions for Oleh are marked **[open]**.
 - **The game is the site root.** The repo is called kids-portal, but there is one game so far, so
   there is no portal home page yet; the game code sits in `src/games/flags/` so a home page with
   several games can be added later. **[open]** Do you want a portal home page now?
+
+## Country data
+
+- **Which countries.** The 193 UN member states plus the Vatican. Kosovo, Taiwan and Palestine are
+  not UN members and are left out. Israel's capital is given as Jerusalem. **[open]** Keep this set?
+- **Russia and Belarus are in the game** as ordinary countries: it is a geography game. **[open]**
+  Leave them out?
+- **Left out as tiny or obscure (28).** Island states outside Europe with fewer than about 1.5 million
+  people (Maldives, Mauritius, Seychelles, Comoros, Cabo Verde, São Tomé and Príncipe, Bahamas,
+  Trinidad and Tobago, Barbados, Fiji, Timor-Leste and all the small Caribbean and Pacific
+  states), plus Brunei. European microstates (Andorra, Monaco, San Marino, Liechtenstein, the
+  Vatican, Malta) stay. That leaves 166 countries. They stay in the data with `tier: "excluded"`, so
+  bringing one back is a one-word change. **[open]** Is the cut right?
+- **A "well-known" set of 45 countries** (`tier: "famous"`): Ukraine's neighbours in the EU, most
+  of Europe and the big famous countries elsewhere. It's for younger kids (see the settings).
+- **Names.** Ukrainian names follow Ukrainian Wikipedia and use the apostrophe ’; common
+  alternatives are accepted as aliases (Голландія, Молдавія, ОАЕ, США, Америка...). English names
+  are the short common ones, typable on a plain keyboard: Turkey (Türkiye accepted), Ivory Coast,
+  Czechia, DR Congo, Bogota without the accent. Where a country has several capitals, all are
+  accepted (South Africa, Bolivia, Sri Lanka, Eswatini). "Kiev" is not accepted, only "Kyiv".
+  "Англія" / "England" is not accepted for the United Kingdom: England is a part of it with a flag
+  of its own.
+- **Equatorial Guinea's capital** is Ciudad de la Paz (Сьюдад-де-ла-Пас) since the decree of
+  2 January 2026; Malabo is still accepted while the move goes on.
+- **Regions.** Russia and Cyprus are in Europe; Turkey, Georgia, Armenia and Azerbaijan in Asia;
+  Central America and the Caribbean in North America. The hint names the region, so a kid sees
+  "Європа" for Cyprus, as Ukrainian schoolbooks do.
+- **Checked against references.** The ISO numeric codes match `i18n-iso-countries` for all 194, every
+  code has a flag in `flag-icons`, and every country in the game has a shape in world-atlas 1:50m
+  (1:110m misses eight microstates, so the map uses 1:50m).
