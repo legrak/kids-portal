@@ -213,6 +213,31 @@ describe("hints", () => {
     expect(question(fixedByLetter).status).toBe("correct");
   });
 
+  test("another country typed whole after a revealed letter is named in the mistake", () => {
+    const state = play(
+      "country",
+      { type: "hint" },
+      { type: "hint" },
+      { type: "hint" },
+      { type: "typeText", text: "Італія" },
+      { type: "submit" },
+    );
+
+    expect(question(state).mistake).toEqual({ kind: "other", code: "it" });
+  });
+
+  test("the whole name typed with the revealed letter is right", () => {
+    const state = play(
+      "country",
+      { type: "hint" },
+      { type: "hint" },
+      { type: "hint" },
+      { type: "typeText", text: "Франція" },
+    );
+
+    expect(question(state).status).toBe("correct");
+  });
+
   test("typing past full slots does not check the answer again", () => {
     const full = play(
       "country",

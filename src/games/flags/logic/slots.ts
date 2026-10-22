@@ -40,11 +40,18 @@ export function cellsToText(cells: readonly SlotCell[]): string {
   return cells.map((cell) => (cell.kind === "empty" ? "" : cell.char)).join("");
 }
 
-/** Keeps only what fits the free slots: letters, at most as many as the slots left to fill. */
+/**
+ * Keeps only what fits the free slots: letters, at most as many as the slots left to fill. A kid
+ * who types the whole name, the revealed letters too, gets the revealed letters skipped.
+ */
 export function fitToSlots(typed: string, target: string, revealedLetters: number): string {
   const freeSlots = Math.max(0, letterCount(target) - revealedLetters);
-  return Array.from(typed.normalize("NFC"))
-    .filter((char) => /\p{L}/u.test(char))
-    .slice(0, freeSlots)
-    .join("");
+  const letters = Array.from(typed.normalize("NFC")).filter((char) => /\p{L}/u.test(char));
+  const revealed = Array.from(target)
+    .filter((char) => !isSeparator(char))
+    .slice(0, revealedLetters);
+  const typedWholeName =
+    letters.length > freeSlots &&
+    revealed.every((char, i) => normalizeAnswer(char) === normalizeAnswer(letters[i] ?? ""));
+  return (typedWholeName ? letters.slice(revealedLetters) : letters).slice(0, freeSlots).join("");
 }

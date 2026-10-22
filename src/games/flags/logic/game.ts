@@ -197,13 +197,15 @@ function checkAnswer(state: GameState, turn: Turn): GameState {
   const answer = currentAnswerText(turn);
   if (normalizeAnswer(answer) === "") return state;
 
-  const match = matchAnswer(
-    answer,
-    acceptedAnswers(turn.country, question.kind),
-    otherAnswers(turn.country, question.kind),
-  );
+  const accepted = acceptedAnswers(turn.country, question.kind);
+  const others = otherAnswers(turn.country, question.kind);
+  const match = matchAnswer(answer, accepted, others);
   if (match.kind === "other" || match.kind === "wrong") {
-    return { ...state, turn: withQuestion(turn, { ...question, mistake: match }) };
+    // With slots on, a kid who typed another country's whole name after a revealed letter
+    // still hears which country that is.
+    const typedMatch = question.showsSlots ? matchAnswer(question.typed, accepted, others) : match;
+    const mistake = typedMatch.kind === "other" ? typedMatch : match;
+    return { ...state, turn: withQuestion(turn, { ...question, mistake }) };
   }
 
   const answered = withQuestion(turn, {

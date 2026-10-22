@@ -59,6 +59,12 @@ describe("fitToSlots", () => {
     expect(fitToSlots("abc", "Іран", 4)).toBe("");
   });
 
+  test("skips the revealed letters when the kid types the whole name", () => {
+    expect(fitToSlots("швейцарія", "Швейцарія", 1)).toBe("вейцарія");
+    expect(fitToSlots("італія", "Швейцарія", 1)).toBe("італія");
+    expect(fitToSlots("вейцарія", "Швейцарія", 1)).toBe("вейцарія");
+  });
+
   test("keeps letters only, so stray quotes and symbols take no slot", () => {
     expect(fitToSlots("‘єтнам", "В’єтнам", 1)).toBe("єтнам");
     expect(fitToSlots("фран?ція", "Франція", 0)).toBe("франція");

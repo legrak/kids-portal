@@ -20,8 +20,8 @@ export function MenuScreen({ settings, muted, onToggleMute, onChange, onStart }:
   const poolSize = countryPool(COUNTRIES, settings).length;
 
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col items-center gap-5 px-4 pt-6 sm:gap-6 sm:pt-8">
-      <div className="fixed top-3 right-3 z-10">
+    <main className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col items-center gap-5 px-4 pt-3 sm:gap-6 sm:pt-4">
+      <div className="-mb-3 flex w-full justify-end sm:-mb-6">
         <MuteButton muted={muted} onToggle={onToggleMute} />
       </div>
       <header className="flex flex-col items-center gap-4 text-center">
@@ -98,7 +98,7 @@ export function MenuScreen({ settings, muted, onToggleMute, onChange, onStart }:
       </Section>
 
       {/* Stays at the bottom of the screen on a phone, so it never hides below the settings. */}
-      <div className="sticky bottom-0 -mx-4 flex w-[calc(100%+2rem)] justify-center bg-white/50 pt-3 pb-4 shadow-[0_-10px_30px_-20px_rgb(0_0_0/0.25)] backdrop-blur-md">
+      <div className="sticky bottom-0 -mx-4 mt-auto flex w-[calc(100%+2rem)] justify-center rounded-t-3xl bg-white/50 pt-3 pb-4 shadow-[0_-10px_30px_-20px_rgb(0_0_0/0.25)] backdrop-blur-md">
         <button
           type="button"
           onClick={onStart}

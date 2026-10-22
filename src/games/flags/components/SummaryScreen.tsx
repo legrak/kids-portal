@@ -48,28 +48,6 @@ export function SummaryScreen({
         </p>
       </header>
 
-      <ul className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        {results.map((result, place) => {
-          const country = countryByCode(result.code);
-          return (
-            <li
-              key={result.code}
-              style={{ animationDelay: `${place * 60}ms` }}
-              className="flex animate-rise flex-col items-center gap-1 rounded-2xl bg-white p-2 text-center shadow-md ring-1 ring-violet-100"
-            >
-              <FlagImage code={result.code} alt={`Прапор: ${country.uk.name}`} />
-              <span className="font-extrabold leading-tight text-slate-800">
-                {mode === "english" ? country.en.name : country.uk.name}
-              </span>
-              {mode === "countryAndCapital" && (
-                <span className="text-sm font-semibold text-slate-500">{country.uk.capital}</span>
-              )}
-              <Stars count={result.stars} />
-            </li>
-          );
-        })}
-      </ul>
-
       <div className="flex flex-wrap justify-center gap-3">
         {upcomingCount > 0 ? (
           <button
@@ -101,6 +79,27 @@ export function SummaryScreen({
           🏠 Меню
         </button>
       </div>
+      <ul className="grid w-full grid-cols-2 gap-3 sm:grid-cols-5">
+        {results.map((result, place) => {
+          const country = countryByCode(result.code);
+          return (
+            <li
+              key={result.code}
+              style={{ animationDelay: `${place * 60}ms` }}
+              className="flex animate-rise flex-col items-center gap-1 rounded-2xl bg-white p-2 text-center shadow-md ring-1 ring-violet-100"
+            >
+              <FlagImage code={result.code} alt={`Прапор: ${country.uk.name}`} />
+              <span className="font-extrabold leading-tight text-slate-800">
+                {mode === "english" ? country.en.name : country.uk.name}
+              </span>
+              {mode === "countryAndCapital" && (
+                <span className="text-sm font-semibold text-slate-500">{country.uk.capital}</span>
+              )}
+              <Stars count={result.stars} />
+            </li>
+          );
+        })}
+      </ul>
     </main>
   );
 }
