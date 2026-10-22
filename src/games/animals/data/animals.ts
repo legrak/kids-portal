@@ -138,7 +138,7 @@ export const ANIMALS: Animal[] = [
     lookalikes: "horses",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Donkey_%28Equus_africanus_asinus%29_at_Dev%C3%ADn_Castle_%28Bratislava%2C_Slovakia%29_julesvernex2.jpg/500px-Donkey_%28Equus_africanus_asinus%29_at_Dev%C3%ADn_Castle_%28Bratislava%2C_Slovakia%29_julesvernex2.jpg",
-      author: "Jules Verne Times Two",
+      author: "Jules Verne Times Two / www.julesvernex2.com",
       license: "CC BY-SA 4.0",
       licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
       source:

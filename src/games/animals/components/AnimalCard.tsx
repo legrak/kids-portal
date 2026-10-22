@@ -41,6 +41,8 @@ export function AnimalCard({
         <button
           type="button"
           onClick={onPick}
+          // A long press on a phone would open the image menu (save, share) instead of picking.
+          onContextMenu={(event) => event.preventDefault()}
           data-animal={animalId}
           aria-label={`Тварина ${place}`}
           className={`h-full w-full overflow-hidden rounded-3xl bg-white p-1.5 shadow-xl ring-4 transition active:scale-95 ${
@@ -52,7 +54,7 @@ export function AnimalCard({
             alt=""
             draggable={false}
             style={{ objectPosition: photoPosition }}
-            className="h-full w-full rounded-2xl bg-violet-50 object-cover"
+            className="h-full w-full rounded-2xl bg-violet-50 object-cover select-none [-webkit-touch-callout:none]"
           />
         </button>
         <button

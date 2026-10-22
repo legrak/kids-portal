@@ -54,7 +54,8 @@ OK), which deploys the site.
   domain, CC BY and CC BY-SA files are used; the start screen lists the author, licence and source
   of every file, as CC BY asks. `bun run check:media` checks that every link still answers.
 - **Photos are 500 px Commons thumbnails.** Commons now serves thumbnails in standard widths only
-  (250, 330, 500, 960...); 500 px is sharp on a card. The card crops to 4:3; for some photos the
+  (250, 330, 500, 960...); 500 px is light to load and a little soft on a retina screen, where
+  a card is 700–800 px wide. The card crops to 4:3; for some photos the
   data says which part to keep (CSS `object-position`), so a head is not cut off.
 - **Choosing the photos.** For each animal a script took up to 8 candidates from Commons' quality
   images by the species name (a wider search where none was good), and agents looked at each one:
@@ -101,3 +102,17 @@ OK), which deploys the site.
 - **The next round's photos load ahead**, while the kid plays. Its sounds don't: iOS ignores
   loading ahead, and elsewhere it would fetch whole recordings of which 4 s play.
 - **Tests run offline:** the e2e tests answer the Commons requests themselves.
+
+## Open questions for Oleh
+
+1. **The card's 🔊 plays that card's animal**, so a kid can compare; it could replay the asked
+   sound instead.
+2. **The list changed:** mouse, snake, seal and parrot out (no recording a kid would know, or none
+   the classifiers trusted), pigeon, woodpecker and gull in.
+3. **Weakest picks**, worth a look or a swap later: the photos of the pig (a minipig), the sheep
+   (behind a rock), the chimpanzee (in a zoo enclosure) and the dolphin (half under water); the
+   squirrel's sound (the classifier ranks it second).
+4. **The bear's sound** comes from a recording of a grizzly eating a carcass at night; in the 4 s
+   played the classifiers hear a growl, but it may hold some crunching. Worth a listen.
+5. **The spoken question** was never heard by me: worth a listen on an iPhone, an Android phone
+   and a computer.
