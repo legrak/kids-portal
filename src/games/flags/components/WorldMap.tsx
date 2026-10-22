@@ -1,4 +1,4 @@
-import { memo, Suspense, use, useState } from "react";
+import { memo, type PointerEvent, Suspense, use, useState } from "react";
 import { COUNTRIES, type Region } from "../data/countries";
 import {
   type CountryShape,
@@ -7,6 +7,9 @@ import {
   MAP_HEIGHT,
   MAP_WIDTH,
 } from "./worldShapes";
+
+/** Keeps the focus in the answer field, so clicking the map does not stop the typing. */
+const keepFocus = (event: PointerEvent) => event.preventDefault();
 
 const REGION_BY_ISO_NUMERIC = new Map(COUNTRIES.map((c) => [c.isoNumeric, c.region]));
 
@@ -57,6 +60,7 @@ function LoadedMap({ isoNumeric, region, onRetry }: WorldMapProps & { onRetry: (
         <button
           type="button"
           onClick={onRetry}
+          onPointerDown={keepFocus}
           className="rounded-full bg-white px-4 py-1 font-bold shadow-sm"
         >
           Спробувати ще
@@ -80,6 +84,7 @@ function LoadedMap({ isoNumeric, region, onRetry }: WorldMapProps & { onRetry: (
     <button
       type="button"
       onClick={() => setZoomed((value) => !value)}
+      onPointerDown={keepFocus}
       aria-label={zoomed ? "Показати весь світ" : "Наблизити карту"}
       className="group block h-full w-full cursor-zoom-in"
     >

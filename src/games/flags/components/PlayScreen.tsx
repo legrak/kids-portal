@@ -22,6 +22,9 @@ import { WorldMap } from "./WorldMap";
 /** Keeps the focus in the answer field, so a phone keyboard stays open while buttons are tapped. */
 const keepFocus = (event: PointerEvent) => event.preventDefault();
 
+/** Enter cannot skip a result shown for less than this. */
+const RESULT_MIN_SHOWN_MS = 700;
+
 /** How long the result stays on screen before the next flag. */
 const ADVANCE_AFTER_SOLVED_MS = 2600;
 /** Longer after a revealed answer, to read it and see the country on the map. */
@@ -69,7 +72,16 @@ export function PlayScreen({
   }, [nextCode]);
 
   const typeText = (text: string) => dispatch({ type: "typeText", text });
-  const submitOrGoOn = () => dispatch({ type: isOver ? "next" : "submit" });
+  // Enter checks the answer, and goes on once the result is shown; an Enter pressed right after
+  // the answer (twice, or held down) must not skip the result.
+  const overSince = useRef(0);
+  useEffect(() => {
+    if (isOver) overSince.current = Date.now();
+  }, [isOver]);
+  const submitOrGoOn = () => {
+    if (!isOver) dispatch({ type: "submit" });
+    else if (Date.now() - overSince.current > RESULT_MIN_SHOWN_MS) dispatch({ type: "next" });
+  };
 
   return (
     <div className="flex min-h-dvh flex-col">

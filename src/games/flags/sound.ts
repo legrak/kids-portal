@@ -61,8 +61,9 @@ let audioContext: AudioContext | null = null;
 function getAudioContext(): AudioContext | null {
   if (typeof AudioContext === "undefined") return null;
   audioContext ??= new AudioContext();
-  // Browsers start the context suspended until the page gets a click or a key press.
-  if (audioContext.state === "suspended") void audioContext.resume();
+  // Browsers start the context suspended until the page gets a click or a key press, and iOS
+  // interrupts it when the screen locks or another app plays.
+  if (audioContext.state !== "running") void audioContext.resume();
   return audioContext;
 }
 
