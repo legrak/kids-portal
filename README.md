@@ -8,7 +8,7 @@ deploys to Cloudflare as plain files, with no server.
 
 ## The flag game
 
-- 127 countries; tiny island states and countries a kid in Ukraine hardly ever hears of are left
+- 139 countries; tiny island states and countries a kid in Ukraine hardly ever hears of are left
   out (see `src/games/flags/data/countries.ts`).
 - Three levels: the country's name in Ukrainian, the name and the capital, or the name in English.
 - A part of the world to play (all, Europe, Asia, Africa, the Americas) and an easier set of 45

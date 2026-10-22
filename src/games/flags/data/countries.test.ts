@@ -75,7 +75,7 @@ describe("COUNTRIES", () => {
     for (const code of ["mh", "kn", "gq", "pg"]) {
       expect(byCode(code).tier).toBe("excluded");
     }
-    expect(COUNTRIES.filter((c) => c.tier !== "excluded")).toHaveLength(127);
+    expect(COUNTRIES.filter((c) => c.tier !== "excluded")).toHaveLength(139);
   });
 
   test("the well-known set has Ukraine and its western neighbours", () => {

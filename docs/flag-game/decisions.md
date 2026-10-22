@@ -1,6 +1,6 @@
 # Decisions
 
-Open questions for Oleh are marked **[open]**.
+The open questions of the first session were all confirmed by Oleh.
 
 ## Setup
 
@@ -27,24 +27,23 @@ Open questions for Oleh are marked **[open]**.
   the 🌍 emoji.
 - **The game is the site root.** The repo is called kids-portal, but there is one game so far, so
   there is no portal home page yet; the game code sits in `src/games/flags/` so a home page with
-  several games can be added later. **[open]** Do you want a portal home page now?
+  several games can be added later. Confirmed by Oleh: no home page yet.
 
 ## Country data
 
 - **Which countries.** The 193 UN member states plus the Vatican. Kosovo, Taiwan and Palestine are
-  not UN members and are left out. Israel's capital is given as Jerusalem. **[open]** Keep this set?
-- **Russia and Belarus are in the game** as ordinary countries: it is a geography game. **[open]**
-  Leave them out?
-- **Left out (67), so 127 countries are in the game.** They stay in the data with
-  `tier: "excluded"`, so bringing one back is a one-word change. **[open]** Is the cut right?
+  not UN members and are left out. Israel's capital is given as Jerusalem. Confirmed by Oleh.
+- **Russia and Belarus are in the game** as ordinary countries: it is a geography game. Confirmed by Oleh.
+- **Left out (55), so 139 countries are in the game.** They stay in the data with
+  `tier: "excluded"`, so bringing one back is a one-word change. Oleh confirmed the cut and brought
+  back Chad, Rwanda, Liberia, Togo, the Republic of the Congo, Bhutan, Laos, Cambodia, Myanmar,
+  Yemen, Oman and Bahrain.
   - Tiny island states outside Europe (28): Maldives, Mauritius, Seychelles, Comoros, Cabo Verde,
     São Tomé and Príncipe, Bahamas, Trinidad and Tobago, Barbados, Fiji, Timor-Leste, the small
     Caribbean and Pacific states, plus Brunei.
-  - Countries a kid in Ukraine hardly ever hears of (39), added after Oleh named Equatorial Guinea
-    and Papua New Guinea mid-session. Africa: Equatorial Guinea, Guinea, Guinea-Bissau, Gambia,
-    Burkina Faso, Djibouti, Eritrea, Lesotho, Eswatini, Burundi, Togo, Benin, Mauritania, Sierra
-    Leone, Liberia, the Central African Republic, Gabon, the Republic of the Congo, Malawi, South
-    Sudan, Chad, Botswana, Rwanda. Asia: Bhutan, Laos, Cambodia, Myanmar, Yemen, Oman, Bahrain.
+  - Countries a kid in Ukraine hardly ever hears of (27). Africa: Equatorial Guinea, Guinea,
+    Guinea-Bissau, Gambia, Burkina Faso, Djibouti, Eritrea, Lesotho, Eswatini, Burundi, Benin,
+    Mauritania, Sierra Leone, the Central African Republic, Gabon, Malawi, South Sudan, Botswana.
     The Americas: Belize, Guyana, Suriname, El Salvador, Honduras, Nicaragua, Guatemala, Haiti.
     Oceania: Papua New Guinea.
   - All of Europe stays, microstates included: it is the part of the world a kid in Ukraine knows

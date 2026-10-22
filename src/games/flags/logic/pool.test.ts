@@ -10,7 +10,7 @@ describe("countryPool", () => {
   test("the whole world has every country that is not excluded", () => {
     const pool = codes({ region: "world", countrySet: "all" });
 
-    expect(pool).toHaveLength(127);
+    expect(pool).toHaveLength(139);
     expect(pool).toContain("ua");
     expect(pool).not.toContain("mh");
   });
