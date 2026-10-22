@@ -1,7 +1,9 @@
 # Kids Portal
 
-Small educational games for kids. The first one is **Вгадай країну** ("Guess the country"): a flag
-is shown and the kid types the country's name. The UI is in Ukrainian.
+Small educational games for kids, under the name **Граймося!** ("Let's play!"). The home page at
+`/` lists the games; each game has its own path. The UI is in Ukrainian.
+- **Вгадай країну** ("Guess the country", `/flags`): a flag is shown and the kid types the
+  country's name.
 
 It is a static site: all data and settings live in the browser (settings in `localStorage`), so it
 deploys to Cloudflare as plain files, with no server.
@@ -54,7 +56,10 @@ The site runs on Cloudflare Workers as static assets (`wrangler.jsonc`; no Worke
 
 ```
 src/
-  App.tsx                    the site root (the flag game for now)
+  App.tsx                    picks the page by the path
+  router.ts                  the current path and in-app links, with the History API
+  home/                      the home page with the list of games
+  components/                parts shared by the games
   games/flags/
     data/countries.ts        countries: names, capitals, regions, tiers
     logic/                   game rules, answer checking, hints, keyboards (unit-tested)

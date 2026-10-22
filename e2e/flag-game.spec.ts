@@ -5,7 +5,7 @@ import { REGION_NAMES } from "../src/games/flags/labels";
 const COUNTRIES_BY_CODE = new Map(COUNTRIES.map((country) => [country.code, country]));
 
 async function startGame(page: Page, modeTitle?: string) {
-  await page.goto("/");
+  await page.goto("/flags");
   if (modeTitle) await page.getByRole("button", { name: new RegExp(modeTitle) }).click();
   await page.getByRole("button", { name: /Грати/ }).click();
 }
@@ -145,7 +145,7 @@ test("the English level wants the English name", async ({ page }) => {
 });
 
 test("the chosen settings are remembered after a reload", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/flags");
   await page.getByRole("button", { name: /English/ }).click();
   await page.getByRole("button", { name: /Європа/ }).click();
   await page.getByRole("button", { name: /Відомі/ }).click();

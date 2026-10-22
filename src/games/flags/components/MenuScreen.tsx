@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { HomeButton } from "../../../components/HomeButton";
 import { COUNTRIES } from "../data/countries";
 import { COUNTRY_SETS, MODES, REGION_FILTERS } from "../labels";
 import type { GameSettings } from "../logic/game";
@@ -21,7 +22,8 @@ export function MenuScreen({ settings, muted, onToggleMute, onChange, onStart }:
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col items-center gap-5 px-4 pt-3 sm:gap-6 sm:pt-4">
-      <div className="-mb-3 flex w-full justify-end sm:-mb-6">
+      <div className="-mb-3 flex w-full justify-between sm:-mb-6">
+        <HomeButton />
         <MuteButton muted={muted} onToggle={onToggleMute} />
       </div>
       <header className="flex flex-col items-center gap-4 text-center">
