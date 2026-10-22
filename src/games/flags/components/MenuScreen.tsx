@@ -4,20 +4,26 @@ import { COUNTRY_SETS, MODES, REGION_FILTERS } from "../labels";
 import type { GameSettings } from "../logic/game";
 import { countryPool } from "../logic/pool";
 import { FlagImage } from "./FlagImage";
+import { MuteButton } from "./MuteButton";
 
 interface MenuScreenProps {
   settings: GameSettings;
+  muted: boolean;
+  onToggleMute: () => void;
   onChange: (settings: GameSettings) => void;
   onStart: () => void;
 }
 
 const PARADE_CODES = ["ua", "jp", "br", "ca", "gb", "kr"];
 
-export function MenuScreen({ settings, onChange, onStart }: MenuScreenProps) {
+export function MenuScreen({ settings, muted, onToggleMute, onChange, onStart }: MenuScreenProps) {
   const poolSize = countryPool(COUNTRIES, settings).length;
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col items-center gap-5 px-4 pt-6 sm:gap-6 sm:pt-8">
+      <div className="fixed top-3 right-3 z-10">
+        <MuteButton muted={muted} onToggle={onToggleMute} />
+      </div>
       <header className="flex flex-col items-center gap-4 text-center">
         <div className="flex gap-2 sm:gap-3" aria-hidden="true">
           {PARADE_CODES.map((code, place) => (

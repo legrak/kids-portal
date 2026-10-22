@@ -17,6 +17,7 @@ import { FlagImage, preloadFlag } from "./FlagImage";
 import { OnScreenKeyboard } from "./OnScreenKeyboard";
 import { ResultBanner } from "./ResultBanner";
 import { TopBar } from "./TopBar";
+import { WorldMap } from "./WorldMap";
 
 /** Keeps the focus in the answer field, so a phone keyboard stays open while buttons are tapped. */
 const keepFocus = (event: PointerEvent) => event.preventDefault();
@@ -30,10 +31,19 @@ interface PlayScreenProps {
   turn: Turn;
   roundCodes: readonly string[];
   results: readonly FlagResult[];
+  muted: boolean;
+  onToggleMute: () => void;
   dispatch: (action: GameAction) => void;
 }
 
-export function PlayScreen({ turn, roundCodes, results, dispatch }: PlayScreenProps) {
+export function PlayScreen({
+  turn,
+  roundCodes,
+  results,
+  muted,
+  onToggleMute,
+  dispatch,
+}: PlayScreenProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const { country } = turn;
   const question = turn.questions[turn.current] as Question;
@@ -67,6 +77,8 @@ export function PlayScreen({ turn, roundCodes, results, dispatch }: PlayScreenPr
         roundSize={roundCodes.length}
         results={results}
         isAsking={!isOver}
+        muted={muted}
+        onToggleMute={onToggleMute}
         onMenu={() => dispatch({ type: "openMenu" })}
       />
       <main className="mx-auto grid w-full max-w-2xl flex-1 content-start gap-4 px-4 pt-2 pb-6 sm:gap-6 sm:pt-6 lg:max-w-6xl lg:grid-cols-2 lg:items-start lg:gap-10">
@@ -81,9 +93,18 @@ export function PlayScreen({ turn, roundCodes, results, dispatch }: PlayScreenPr
             />
           </div>
           {showsRegion && (
-            <p className="animate-rise rounded-full bg-white px-4 py-1 text-lg font-extrabold text-violet-700 shadow-sm">
-              📍 {REGION_NAMES[country.region]}
-            </p>
+            <>
+              <p className="animate-rise rounded-full bg-white px-4 py-1 text-lg font-extrabold text-violet-700 shadow-sm">
+                📍 {REGION_NAMES[country.region]}
+              </p>
+              <div className="w-full max-w-lg animate-rise">
+                <WorldMap
+                  key={country.code}
+                  isoNumeric={country.isoNumeric}
+                  region={country.region}
+                />
+              </div>
+            </>
           )}
           {showsUkrainianName && (
             <p className="animate-rise rounded-full bg-white px-4 py-1 text-lg font-bold text-slate-700 shadow-sm">

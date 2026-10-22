@@ -1,11 +1,14 @@
 import { pluralUk } from "../labels";
 import type { FlagResult } from "../logic/game";
+import { MuteButton } from "./MuteButton";
 
 interface TopBarProps {
   roundSize: number;
   results: readonly FlagResult[];
   /** False while the result of the last flag is on screen: no dot is the current one then. */
   isAsking: boolean;
+  muted: boolean;
+  onToggleMute: () => void;
   onMenu: () => void;
 }
 
@@ -15,7 +18,7 @@ const starsText = (count: number) => `${count} ${pluralUk(count, "зірка", "
 const DOT_COLORS = ["bg-rose-400", "bg-orange-400", "bg-lime-400", "bg-emerald-500"] as const;
 
 /** Back to the menu, the progress through the round, and the stars collected. */
-export function TopBar({ roundSize, results, isAsking, onMenu }: TopBarProps) {
+export function TopBar({ roundSize, results, isAsking, muted, onToggleMute, onMenu }: TopBarProps) {
   const stars = results.reduce((sum, result) => sum + result.stars, 0);
   return (
     <header className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 pt-3 pb-1">
@@ -50,6 +53,7 @@ export function TopBar({ roundSize, results, isAsking, onMenu }: TopBarProps) {
         <span aria-hidden="true">⭐</span> {stars}
         <span className="sr-only"> {pluralUk(stars, "зірка", "зірки", "зірок")}</span>
       </p>
+      <MuteButton muted={muted} onToggle={onToggleMute} />
     </header>
   );
 }

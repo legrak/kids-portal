@@ -1,12 +1,15 @@
 import type { GameMode, GameSettings } from "./logic/game";
 import type { CountrySet, RegionFilter } from "./logic/pool";
 
-export type StoredSettings = GameSettings;
+export interface StoredSettings extends GameSettings {
+  muted: boolean;
+}
 
 export const DEFAULT_SETTINGS: StoredSettings = {
   mode: "country",
   region: "world",
   countrySet: "all",
+  muted: false,
 };
 
 const STORAGE_KEY = "kids-portal.flags.settings";
@@ -31,6 +34,7 @@ export function loadSettings(): StoredSettings {
       mode: pick(MODES, fields.mode, DEFAULT_SETTINGS.mode),
       region: pick(REGIONS, fields.region, DEFAULT_SETTINGS.region),
       countrySet: pick(COUNTRY_SETS, fields.countrySet, DEFAULT_SETTINGS.countrySet),
+      muted: typeof fields.muted === "boolean" ? fields.muted : DEFAULT_SETTINGS.muted,
     };
   } catch {
     // Storage can be blocked (private mode, disabled site data); the game works without it.
