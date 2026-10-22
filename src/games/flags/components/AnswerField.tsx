@@ -21,8 +21,9 @@ interface AnswerFieldProps {
   target: string;
   language: KeyboardLanguage;
   /**
-   * The turn is over and its result is on screen. The field hides but keeps the focus, so a phone
-   * keyboard does not close and reopen between flags (the game ignores typing meanwhile).
+   * The turn is over and its result is on screen. The field hides. On a touch screen it also
+   * loses the focus, so the keyboard closes and the result and the next flag are in full view; on
+   * a computer it keeps the focus (the game ignores typing meanwhile).
    */
   isOver: boolean;
   /** Text shown under the field after a wrong answer. */
@@ -68,6 +69,10 @@ export function AnswerField({
   useEffect(() => {
     if (!isTouchDevice()) inputRef.current?.focus({ preventScroll: true });
   });
+
+  useEffect(() => {
+    if (isOver && isTouchDevice()) inputRef.current?.blur();
+  }, [isOver, inputRef]);
 
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (isOver || event.ctrlKey || event.metaKey || event.altKey) return;

@@ -150,11 +150,20 @@ test.describe("keyboards", () => {
     await expect(answerField(page)).toHaveValue("фів");
   });
 
-  test("phones and tablets use their own keyboard", async ({ page }, testInfo) => {
+  test("phones and tablets use their own keyboard, closed while the result shows", async ({
+    page,
+  }, testInfo) => {
     test.skip(testInfo.project.name === "desktop", "computers get the on-screen keyboard");
     await startGame(page);
+    const country = await askedCountry(page);
 
     await expect(page.getByRole("group", { name: "Екранна клавіатура" })).toBeHidden();
-    await expect(answerField(page)).toBeVisible();
+    await expect(answerField(page)).not.toBeFocused();
+    await answerField(page).tap();
+    await expect(answerField(page)).toBeFocused();
+
+    await answer(page, country.uk.name);
+    await expect(page.getByRole("status")).toContainText(country.uk.name);
+    await expect(answerField(page)).not.toBeFocused();
   });
 });

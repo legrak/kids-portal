@@ -44,7 +44,7 @@ export function ResultBanner({ turn, stars, praise, advanceAfterMs, onNext }: Re
       <button
         type="button"
         onClick={onNext}
-        // Keeps the focus in the answer field, so a phone keyboard stays open for the next flag.
+        // Keeps the focus in the answer field, so on a computer the typing goes on with the next flag.
         onPointerDown={(event) => event.preventDefault()}
         className="mt-1 rounded-full bg-violet-500 px-10 py-3 text-xl font-extrabold text-white shadow-md transition hover:scale-105 hover:bg-violet-600 active:scale-95"
       >

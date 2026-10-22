@@ -95,8 +95,9 @@ The open questions of the first session were all confirmed by Oleh.
 - **Typing.** The answer is a real text field, so phones and tablets open their own keyboard (Oleh's
   request); the on-screen keyboard shows only on computers (a fine pointer). On a computer, keys
   type Ukrainian letters by position even when the layout is English or Russian, and a warning
-  shows when letters of the wrong alphabet get in. The field keeps the focus between flags, so a
-  phone keyboard stays open.
+  shows when letters of the wrong alphabet get in. On a phone or tablet the keyboard closes when the
+  turn ends, so the result and the next flag are in full view (Oleh: the open keyboard hid the
+  flag); the kid taps the field to type.
 - **Layout.** One column on phones and tablets in portrait, two (flag and map left, answer right)
   from 1024 px. The Play button in the menu stays at the bottom of the screen.
 - **After an answer.** A right answer: a melody, confetti, stars, and the next flag after 2.6 s. Giving
