@@ -1,6 +1,17 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
+
+/** The animal card shows photos from Wikimedia; the tests answer for it, so they run offline. */
+async function servePhotosLocally(page: Page) {
+  await page.route("https://upload.wikimedia.org/**", (route) =>
+    route.fulfill({
+      contentType: "image/svg+xml",
+      body: "<svg xmlns='http://www.w3.org/2000/svg'/>",
+    }),
+  );
+}
 
 test("the home page lists the games, and a game leads back home", async ({ page }) => {
+  await servePhotosLocally(page);
   await page.goto("/");
   await expect(page).toHaveTitle("Граймося!");
   await expect(page.getByRole("heading", { name: "Граймося!" })).toBeVisible();

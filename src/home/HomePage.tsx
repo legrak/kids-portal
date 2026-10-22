@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { animalById } from "../games/animals/data/animals";
 import { FlagImage } from "../games/flags/components/FlagImage";
 import { followLink } from "../router";
 
@@ -15,6 +16,14 @@ interface GameCard {
 
 const GAMES: GameCard[] = [
   {
+    path: "/animals",
+    title: "Знайди тварину",
+    description: "Слухай, хто це кличе, і знайди тваринку.",
+    age: "3+",
+    picture: <AnimalTrio />,
+    colors: "from-lime-200 via-emerald-300 to-sky-300",
+  },
+  {
     path: "/flags",
     title: "Вгадай країну",
     description: "Дивись на прапор і пиши, яка це країна.",
@@ -27,9 +36,9 @@ const GAMES: GameCard[] = [
 /** The list of games. */
 export function HomePage() {
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-4xl flex-col items-center gap-8 px-4 py-8 sm:gap-10 sm:py-12">
+    <main className="mx-auto flex min-h-dvh w-full max-w-4xl flex-col items-center gap-8 px-4 py-8 sm:gap-10 sm:py-12 short:gap-4 short:py-4">
       <header className="flex flex-col items-center gap-2 text-center">
-        <h1 className="bg-linear-to-r from-violet-600 via-fuchsia-500 to-amber-500 bg-clip-text text-6xl font-black text-transparent sm:text-7xl">
+        <h1 className="bg-linear-to-r from-violet-600 via-fuchsia-500 to-amber-500 bg-clip-text text-6xl font-black text-transparent sm:text-7xl short:text-4xl">
           Граймося!
         </h1>
         <p className="text-xl font-bold text-slate-600">Вибирай гру 👇</p>
@@ -44,7 +53,7 @@ export function HomePage() {
               className="group flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-violet-100 transition hover:-translate-y-1 hover:shadow-2xl active:scale-[0.98]"
             >
               <div
-                className={`relative flex h-44 items-center justify-center overflow-hidden bg-linear-to-br sm:h-52 ${game.colors}`}
+                className={`relative flex h-44 items-center justify-center overflow-hidden bg-linear-to-br sm:h-52 short:h-32 ${game.colors}`}
               >
                 {game.picture}
                 <span className="absolute top-3 right-3 rounded-full bg-white/90 px-3 py-1 text-lg font-black text-violet-700 shadow-sm">
@@ -68,7 +77,32 @@ export function HomePage() {
           </li>
         ))}
       </ul>
+      <p className="text-center text-sm font-semibold text-balance text-slate-500">
+        Фото тварин — з Wikimedia Commons; їхні автори й ліцензії — на першому екрані гри «Знайди
+        тварину».
+      </p>
     </main>
+  );
+}
+
+/** Three round animal photos in a row. */
+function AnimalTrio() {
+  return (
+    <div
+      className="flex items-center -space-x-3 transition group-hover:scale-105"
+      aria-hidden="true"
+    >
+      {["cow", "cat", "dog"].map((id, place) => (
+        <img
+          key={id}
+          src={animalById(id).photo.url}
+          alt=""
+          className={`h-24 w-24 rounded-full object-cover shadow-lg ring-4 ring-white sm:h-28 sm:w-28 short:h-20 short:w-20 ${
+            place === 1 ? "z-10 scale-110" : "translate-y-3"
+          }`}
+        />
+      ))}
+    </div>
   );
 }
 

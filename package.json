@@ -13,6 +13,7 @@
     "format": "biome check --write .",
     "test": "bun test ./src",
     "test:e2e": "playwright test",
+    "check:media": "bun scripts/check-animal-media.ts",
     "check": "bun run typecheck && bun run lint && bun run test && bun run build",
     "deploy": "bun run build && wrangler deploy"
   },

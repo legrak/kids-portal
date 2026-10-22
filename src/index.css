@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* A low screen: a phone in landscape. */
+@custom-variant short (@media (max-height: 30rem));
+
 @theme {
   --font-sans: "Nunito Variable", ui-rounded, system-ui, sans-serif;
 

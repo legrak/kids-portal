@@ -2,11 +2,28 @@
 
 Small educational games for kids, under the name **Граймося!** ("Let's play!"). The home page at
 `/` lists the games; each game has its own path. The UI is in Ukrainian.
+- **Знайди тварину** ("Find the animal", `/animals`), for 3-year-olds: three animal photos, the
+  game asks for one and plays its sound, and the kid taps it.
 - **Вгадай країну** ("Guess the country", `/flags`): a flag is shown and the kid types the
   country's name.
 
 It is a static site: all data and settings live in the browser (settings in `localStorage`), so it
 deploys to Cloudflare as plain files, with no server.
+
+## The animal game
+
+- 30 animals with a sound a kid can know, from the farm, the forest and the zoo; lookalikes (a
+  horse and a donkey, a hen and a rooster) never share a round.
+- The game asks "Де корова?" in text, says it aloud when the browser has a Ukrainian voice, and
+  plays the animal's sound; every card can play its own animal too.
+- No score and no losing: a wrong tap shakes the card and plays the sound again, a right one gets
+  confetti, and the next three animals come by themselves. An animal isn't asked again until all
+  were.
+- Real photos and recordings, linked from Wikimedia Commons; the start screen credits each one.
+  `bun run check:media` checks that the links still answer.
+
+Design decisions, the way the photos and sounds were chosen and checked, and open questions are in
+[`docs/animal-game/decisions.md`](docs/animal-game/decisions.md).
 
 ## The flag game
 
@@ -36,6 +53,7 @@ bun run dev         # dev server at http://localhost:5173
 bun run check       # typecheck, lint, unit tests and build
 bun run test:e2e    # Playwright tests against the built site (desktop, phone, tablet)
 bun run format      # format and fix lint issues
+bun run check:media # check that the animal game's photo and sound links still answer
 ```
 
 Before the first e2e run, install the browser: `bunx playwright install chromium`.
@@ -60,12 +78,19 @@ src/
   router.ts                  the current path and in-app links, with the History API
   home/                      the home page with the list of games
   components/                parts shared by the games
+  shared/                    confetti and synthesized sounds
+  games/animals/
+    data/animals.ts          animals: names, photo and sound links with their credits
+    logic/                   rounds without repeats or lookalikes (unit-tested)
+    audio.ts                 the animal sounds and the spoken question
+    components/              screens and cards
   games/flags/
     data/countries.ts        countries: names, capitals, regions, tiers
     logic/                   game rules, answer checking, hints, keyboards (unit-tested)
     components/              screens and widgets
 e2e/                         Playwright tests
-docs/flag-game/              task notes and the decision log
+scripts/                     maintenance scripts
+docs/                        decision logs per game
 ```
 
 ## Credits
@@ -74,5 +99,8 @@ docs/flag-game/              task notes and the decision log
 - Map: [world-atlas](https://github.com/topojson/world-atlas) (ISC), from
   [Natural Earth](https://www.naturalearthdata.com/) (public domain), drawn with
   [d3-geo](https://github.com/d3/d3-geo) and [topojson-client](https://github.com/topojson/topojson-client) (ISC).
+- Animal photos and sounds: [Wikimedia Commons](https://commons.wikimedia.org/), each under its
+  own licence (CC0, public domain, CC BY or CC BY-SA); the authors are listed in the game and in
+  `src/games/animals/data/animals.ts`.
 - Confetti: [canvas-confetti](https://github.com/catdad/canvas-confetti) (ISC).
 - Font: [Nunito](https://fonts.google.com/specimen/Nunito) via Fontsource (OFL 1.1).

@@ -1,4 +1,5 @@
 import { type ReactNode, useEffect } from "react";
+import { AnimalGame } from "./games/animals/AnimalGame";
 import { FlagGame } from "./games/flags/FlagGame";
 import { HomePage } from "./home/HomePage";
 import { usePath } from "./router";
@@ -7,6 +8,7 @@ const SITE_TITLE = "Граймося!";
 
 const PAGES: Record<string, { title: string; render: () => ReactNode }> = {
   "/flags": { title: "Вгадай країну", render: () => <FlagGame /> },
+  "/animals": { title: "Знайди тварину", render: () => <AnimalGame /> },
 };
 
 export function App() {

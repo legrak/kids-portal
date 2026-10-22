@@ -45,3 +45,59 @@ OK), which deploys the site.
 - **The browser's Back leaves a game in progress**, as the round lives in memory. A game's saved
   settings stay.
 - **Cards** sit two in a row from tablets up, an odd last one in the middle.
+
+### Photos and sounds
+
+- **Wikimedia Commons for both.** It allows linking its files from other sites (Commons warns that
+  a linked file can be renamed or deleted), each file states its licence, and both hosts answer
+  cross-origin requests. Pixabay forbids linking; Unsplash has no animal sounds. Only CC0, public
+  domain, CC BY and CC BY-SA files are used; the start screen lists the author, licence and source
+  of every file, as CC BY asks. `bun run check:media` checks that every link still answers.
+- **Photos are 500 px Commons thumbnails.** Commons now serves thumbnails in standard widths only
+  (250, 330, 500, 960...); 500 px is sharp on a card. The card crops to 4:3; for some photos the
+  data says which part to keep (CSS `object-position`), so a head is not cut off.
+- **Choosing the photos.** For each animal a script took up to 8 candidates from Commons' quality
+  images by the species name (a wider search where none was good), and agents looked at each one:
+  the right animal as a kid knows it, one animal, big and whole, still framed after the 4:3 crop,
+  nothing a parent would object to (blood, prey, dead animals, people, text), a calm background.
+  Weak spots left: the pig is a wrinkled minipig (the classic pink pig photos had piglets around it
+  or were tiny), the sheep's back is behind a rock (the one whole sheep had a red paint mark that
+  reads like blood), the chimpanzee sits in a zoo enclosure.
+- **Sounds are MP3s.** Commons makes an MP3 of every Ogg or WAV file; Ogg plays on iPhones only
+  from iOS 18.4. A long recording plays a 4 s part, given as a media fragment (`#t=8,12`).
+- **Checking the sounds.** I can't listen, so two classifiers did, locally (the tools stayed out
+  of the repo): AST, trained on AudioSet, for the animals AudioSet has a class for, and CLAP,
+  asked which of the 30 animals or of a few non-animal sounds (speech, music, wind, a car) each
+  4 s part sounds like. A recording was picked when CLAP put the animal first or AST heard its
+  class, the file's description agreed, and the part with the best score became the clip. Notes:
+  - Goat: CLAP prefers "sheep" (a bleat is a bleat); AST hears a bleat; the file is a herd of
+    goats. Sheep and goat never share a round.
+  - Turkey: AST hears "Turkey" and "Gobble"; CLAP says goose.
+  - Squirrel: CLAP ranks it second, after the monkey; it is a British Library recording of a grey
+    squirrel's call. Commons has no recording of the red squirrel.
+  - Bear: the only bear growl is from a Yellowstone recording of a grizzly at night, where CLAP
+    hears a bear first and AST a roar.
+  - Bee: CLAP is sure (0.99), AST hears an insect and a fly. A honey bee recording AST liked
+    more lasted 15 minutes, a 26 MB MP3 for 4 s of buzzing, so the shorter one won.
+- **The list changed.** Mouse, snake and seal had no recording a kid would know (lab ultrasound,
+  a rattle, an elephant seal), and the only scarlet macaw recording was heard as a monkey, a crow
+  and speech, so the parrot went too. Pigeon, woodpecker and gull came in; AST has no gull class,
+  but CLAP is sure (0.96) and the recordings are of herring gulls. 30 animals.
+- **Lookalike groups:** horse and donkey; hen, rooster and turkey; tiger and lion; dog and wolf;
+  duck, goose and gull; sheep and goat; crow, pigeon and cuckoo.
+
+### The game
+
+- **A card's 🔊 plays that card's animal**, so a kid can listen to each and compare it with the
+  sound asked for; the 🔊 by the question repeats the question and the sound. (Open question: the
+  card's button could replay the asked sound instead.)
+- **Voice.** `speechSynthesis` with a Ukrainian voice when the browser has one (iOS and macOS have
+  "Lesya", which iOS may need downloaded; Windows Chrome likely has none). If the voice never says
+  it finished, the sound starts after 3 s anyway. Without a voice: the text and the sound.
+- **Sound on phones.** iOS plays sound from a timer only on a player that has already played inside
+  a tap, so the Play tap starts one reused `<audio>` with a moment of silence, and every animal
+  plays through it. The page also tells iOS it plays sound on purpose (`audioSession`), so the
+  success melody plays with the ringer switch off.
+- **The next round's photos load ahead**, while the kid plays. Its sounds don't: iOS ignores
+  loading ahead, and elsewhere it would fetch whole recordings of which 4 s play.
+- **Tests run offline:** the e2e tests answer the Commons requests themselves.
