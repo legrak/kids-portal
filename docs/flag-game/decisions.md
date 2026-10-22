@@ -100,6 +100,11 @@ The open questions of the first session were all confirmed by Oleh.
   flag); the kid taps the field to type.
 - **Layout.** One column on phones and tablets in portrait, two (flag and map left, answer right)
   from 1024 px. The Play button in the menu stays at the bottom of the screen.
+- **Typing on a phone or tablet.** While the device keyboard is open, the screen fits the flag, the
+  answer field and the buttons into the part above it (Oleh asked for the flag to show right above
+  the keyboard): the top bar and the map hide, and in landscape the flag goes beside the field.
+  Taking the map hint closes the keyboard, so the map shows. The open keyboard is told by the
+  visual viewport being much shorter than the page; the e2e tests fake it.
 - **After an answer.** A right answer: a melody, confetti, stars, and the next flag after 2.6 s. Giving
   up: the answer, the map, and the next flag after 5 s. "Далі →" or Enter go on at once.
 - **Extras I added:** the "well-known countries" set and the part-of-the-world choice; stars and
@@ -111,10 +116,9 @@ The open questions of the first session were all confirmed by Oleh.
 - **Cloudflare Workers with static assets** (`wrangler.jsonc`, no Worker code), which Cloudflare now
   recommends over Pages for new sites. `bun run deploy` deploys by hand; the GitHub Actions workflow
   deploys `main` after the checks and e2e tests pass. It needs the `CLOUDFLARE_API_TOKEN` and
-  `CLOUDFLARE_ACCOUNT_ID` secrets. Checked with `wrangler deploy --dry-run` only: there are no keys.
+  `CLOUDFLARE_ACCOUNT_ID` secrets, which Oleh added; the site is https://kids-portal.legrak.workers.dev.
 
 ## Not verified
 
-- A real deploy (no Cloudflare keys) and a real GitHub Actions run (no remote).
 - Real phones and tablets: the e2e tests run in Chromium with phone and tablet emulation. Worth a
-  check on an iPhone and an Android phone: the keyboard staying open between flags, sounds.
+  check on an iPhone and an Android phone: the layout above the device keyboard, sounds.

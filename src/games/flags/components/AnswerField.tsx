@@ -31,6 +31,8 @@ interface AnswerFieldProps {
   inputRef: RefObject<HTMLInputElement | null>;
   onTypeText: (text: string) => void;
   onSubmit: () => void;
+  /** The kid starts or stops typing on a touch screen, whose own keyboard covers part of it. */
+  onTouchTypingChange: (typing: boolean) => void;
 }
 
 /** Long words break into rows of at most this many slots, so the slots stay readable on a phone. */
@@ -53,6 +55,7 @@ export function AnswerField({
   inputRef,
   onTypeText,
   onSubmit,
+  onTouchTypingChange,
 }: AnswerFieldProps) {
   const caretAfterRemap = useRef<number | null>(null);
   const shaking = useShakeOnMistake(question.mistake);
@@ -110,9 +113,13 @@ export function AnswerField({
           onKeyDown={handleKeyDown}
           // The letters fill the slots in order, so with slots on the caret stays at the end.
           onSelect={cells ? (event) => moveCaretToEnd(event.currentTarget) : undefined}
+          onFocus={() => {
+            if (isTouchDevice()) onTouchTypingChange(true);
+          }}
           onBlur={(event) => {
+            if (isTouchDevice()) onTouchTypingChange(false);
             // On a computer, clicking the page must not stop the typing.
-            if (!isTouchDevice() && !event.relatedTarget) {
+            else if (!event.relatedTarget) {
               requestAnimationFrame(() => inputRef.current?.focus({ preventScroll: true }));
             }
           }}

@@ -22,6 +22,32 @@ async function askedCountry(page: Page): Promise<Country> {
 
 const answerField = (page: Page) => page.getByRole("textbox", { name: /Відповідь/ });
 
+/**
+ * Stands in for the visual viewport, the part of the page in view, which a real phone keyboard
+ * shrinks; a browser in a test has no such keyboard.
+ */
+async function fakeDeviceKeyboard(page: Page) {
+  await page.addInitScript(() => {
+    const viewport = Object.assign(new EventTarget(), {
+      offsetTop: 0,
+      height: window.innerHeight,
+      scale: 1,
+    });
+    Object.defineProperty(window, "visualViewport", { value: viewport });
+    window.addEventListener("device-keyboard", (event) => {
+      viewport.height = window.innerHeight - (event as CustomEvent<number>).detail;
+      viewport.dispatchEvent(new Event("resize"));
+    });
+  });
+}
+
+/** Opens the fake device keyboard at this height, or closes it with 0. */
+async function showDeviceKeyboard(page: Page, height: number) {
+  await page.evaluate((detail) => {
+    window.dispatchEvent(new CustomEvent("device-keyboard", { detail }));
+  }, height);
+}
+
 async function answer(page: Page, text: string) {
   await answerField(page).fill(text);
   await answerField(page).press("Enter");
@@ -165,5 +191,34 @@ test.describe("keyboards", () => {
     await answer(page, country.uk.name);
     await expect(page.getByRole("status")).toContainText(country.uk.name);
     await expect(answerField(page)).not.toBeFocused();
+  });
+
+  test("while the kid types on a phone or tablet, the flag stays in view above its keyboard", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "desktop", "computers get the on-screen keyboard");
+    await fakeDeviceKeyboard(page);
+    await startGame(page);
+    const screenHeight = page.viewportSize()?.height ?? 0;
+    const menu = page.getByRole("button", { name: "Меню" });
+
+    await answerField(page).tap();
+    // The device keyboard takes about half of the screen.
+    const inView = Math.round(screenHeight / 2);
+    await showDeviceKeyboard(page, screenHeight - inView);
+    await expect(menu).toBeHidden();
+    const flag = page.getByRole("img", { name: "Прапор — вгадай країну" });
+    for (const part of [flag, answerField(page), page.getByRole("button", { name: /Не знаю/ })]) {
+      const box = await part.boundingBox();
+      expect(box?.y).toBeGreaterThanOrEqual(0);
+      expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(inView);
+    }
+    // Big enough to tell the flag.
+    expect((await flag.boundingBox())?.height).toBeGreaterThan(inView / 3);
+
+    // Android's Back hides the keyboard and leaves the field focused.
+    await showDeviceKeyboard(page, 0);
+    await expect(menu).toBeVisible();
+    await expect(answerField(page)).toBeFocused();
   });
 });

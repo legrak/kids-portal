@@ -1,4 +1,4 @@
-import { type PointerEvent, useEffect, useRef } from "react";
+import { type PointerEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { HINT_EMOJI, hintLabel, praiseFor, REGION_NAMES } from "../labels";
 import {
   countryByCode,
@@ -59,6 +59,11 @@ export function PlayScreen({
   const turnHints = turn.questions.flatMap(takenHints);
   const showsRegion = turnHints.includes("map") || (isOver && !isSolved);
   const showsUkrainianName = turnHints.includes("ukrainianName");
+  // While the kid types on a touch screen, its keyboard covers part of it: the screen then fits
+  // the flag, the answer field and the buttons into the part left in view.
+  const [isTouchTyping, setTouchTyping] = useState(false);
+  const areaAboveKeyboard = useAreaAboveKeyboard(isTouchTyping);
+  const isCompact = areaAboveKeyboard !== null;
 
   useEffect(() => {
     if (!isOver) return;
@@ -84,32 +89,62 @@ export function PlayScreen({
   };
 
   return (
-    <div className="flex min-h-dvh flex-col">
-      <TopBar
-        roundSize={roundCodes.length}
-        results={results}
-        isAsking={!isOver}
-        muted={muted}
-        onToggleMute={onToggleMute}
-        onMenu={() => dispatch({ type: "openMenu" })}
-      />
-      <main className="mx-auto grid w-full max-w-2xl flex-1 content-start gap-4 px-4 pt-2 pb-6 sm:gap-6 sm:pt-6 lg:max-w-6xl lg:grid-cols-2 lg:items-start lg:gap-10">
-        <section className="flex flex-col items-center gap-3">
+    <div
+      className={
+        isCompact ? "fixed inset-x-0 flex flex-col overflow-y-auto" : "flex min-h-dvh flex-col"
+      }
+      style={areaAboveKeyboard ?? undefined}
+    >
+      {!isCompact && (
+        <TopBar
+          roundSize={roundCodes.length}
+          results={results}
+          isAsking={!isOver}
+          muted={muted}
+          onToggleMute={onToggleMute}
+          onMenu={() => dispatch({ type: "openMenu" })}
+        />
+      )}
+      <main
+        className={
+          isCompact
+            ? // In landscape the flag goes beside the answer: a phone has little height left then.
+              "mx-auto grid min-h-0 w-full max-w-2xl flex-1 grid-rows-[minmax(5rem,1fr)_auto] gap-2 px-4 py-2 landscape:max-w-6xl landscape:grid-cols-2 landscape:grid-rows-[minmax(5rem,1fr)] landscape:gap-6"
+            : "mx-auto grid w-full max-w-2xl flex-1 content-start gap-4 px-4 pt-2 pb-6 sm:gap-6 sm:pt-6 lg:max-w-6xl lg:grid-cols-2 lg:items-start lg:gap-10"
+        }
+      >
+        <section className={`flex flex-col items-center ${isCompact ? "min-h-0 gap-2" : "gap-3"}`}>
           <div
-            key={country.code}
-            className="w-[min(100%,calc(30dvh*4/3))] sm:w-[min(100%,calc(40dvh*4/3))] animate-flag-in rounded-3xl bg-white p-3 shadow-xl ring-1 ring-violet-100 transition hover:-rotate-1 hover:scale-[1.02] lg:w-full lg:max-w-lg"
+            className={
+              isCompact
+                ? "flex min-h-0 w-full flex-1 items-center justify-center [container-type:size]"
+                : "contents"
+            }
           >
-            <FlagImage
-              code={country.code}
-              alt={isOver ? `Прапор: ${country.uk.name}` : "Прапор — вгадай країну"}
-            />
+            <div
+              key={country.code}
+              className={`animate-flag-in rounded-3xl bg-white p-3 shadow-xl ring-1 ring-violet-100 transition hover:-rotate-1 hover:scale-[1.02] ${
+                isCompact
+                  ? // As wide as the room allows, keeping the card (a 4:3 flag plus padding) in it.
+                    "w-[min(100cqw,calc((100cqh_-_1.5rem)*4/3_+_1.5rem))]"
+                  : "w-[min(100%,calc(30dvh*4/3))] sm:w-[min(100%,calc(40dvh*4/3))] lg:w-full lg:max-w-lg"
+              }`}
+            >
+              <FlagImage
+                code={country.code}
+                alt={isOver ? `Прапор: ${country.uk.name}` : "Прапор — вгадай країну"}
+              />
+            </div>
           </div>
           {showsRegion && (
             <>
-              <p className="animate-rise rounded-full bg-white px-4 py-1 text-lg font-extrabold text-violet-700 shadow-sm">
+              <p
+                className={`animate-rise rounded-full bg-white px-4 font-extrabold text-violet-700 shadow-sm ${isCompact ? "py-0.5" : "py-1 text-lg"}`}
+              >
                 📍 {REGION_NAMES[country.region]}
               </p>
-              <div className="w-full max-w-lg animate-rise">
+              {/* No room for the map above a phone keyboard; it stays mounted for later. */}
+              <div className={isCompact ? "hidden" : "w-full max-w-lg animate-rise"}>
                 <WorldMap
                   key={country.code}
                   isoNumeric={country.isoNumeric}
@@ -119,13 +154,17 @@ export function PlayScreen({
             </>
           )}
           {showsUkrainianName && (
-            <p className="animate-rise rounded-full bg-white px-4 py-1 text-lg font-bold text-slate-700 shadow-sm">
+            <p
+              className={`animate-rise rounded-full bg-white px-4 font-bold text-slate-700 shadow-sm ${isCompact ? "py-0.5" : "py-1 text-lg"}`}
+            >
               💬 Українською: <b>{country.uk.name}</b>
             </p>
           )}
         </section>
 
-        <section className="flex flex-col items-center gap-3">
+        <section
+          className={`flex flex-col items-center ${isCompact ? "gap-2 landscape:justify-center" : "gap-3"}`}
+        >
           {isOver ? (
             <ResultBanner
               turn={turn}
@@ -135,7 +174,7 @@ export function PlayScreen({
               onNext={() => dispatch({ type: "next" })}
             />
           ) : (
-            <Prompt turn={turn} question={question} />
+            <Prompt turn={turn} question={question} compact={isCompact} />
           )}
           <AnswerField
             question={question}
@@ -146,23 +185,30 @@ export function PlayScreen({
             inputRef={inputRef}
             onTypeText={typeText}
             onSubmit={submitOrGoOn}
+            onTouchTypingChange={setTouchTyping}
           />
           {!isOver && (
-            <div className="grid w-full grid-cols-2 gap-2">
+            <div
+              className={`grid w-full gap-2 ${isCompact ? "grid-cols-3 leading-tight" : "grid-cols-2"}`}
+            >
               <button
                 type="button"
                 onClick={() => dispatch({ type: "submit" })}
                 onPointerDown={keepFocus}
-                className="col-span-2 rounded-2xl border-b-4 border-emerald-700 bg-emerald-500 py-3 text-xl font-extrabold text-white shadow-md transition hover:bg-emerald-400 active:translate-y-0.5 active:border-b-2"
+                className={`rounded-2xl border-b-4 border-emerald-700 bg-emerald-500 font-extrabold text-white shadow-md transition hover:bg-emerald-400 active:translate-y-0.5 active:border-b-2 ${isCompact ? "py-2" : "col-span-2 py-3 text-xl"}`}
               >
                 ✓ Перевірити
               </button>
               <button
                 type="button"
                 disabled={!hint}
-                onClick={() => dispatch({ type: "hint" })}
+                onClick={() => {
+                  dispatch({ type: "hint" });
+                  // The map needs the room the phone keyboard takes, so the keyboard closes.
+                  if (hint === "map" && isCompact) inputRef.current?.blur();
+                }}
                 onPointerDown={keepFocus}
-                className="rounded-2xl border-b-4 border-amber-500 bg-amber-300 px-2 py-3 font-extrabold text-amber-950 shadow-md transition enabled:hover:bg-amber-200 enabled:active:translate-y-0.5 enabled:active:border-b-2 disabled:opacity-50 sm:text-lg"
+                className={`rounded-2xl border-b-4 border-amber-500 bg-amber-300 px-2 font-extrabold text-amber-950 shadow-md transition enabled:hover:bg-amber-200 enabled:active:translate-y-0.5 enabled:active:border-b-2 disabled:opacity-50 ${isCompact ? "py-2" : "py-3 sm:text-lg"}`}
               >
                 {hint
                   ? `${HINT_EMOJI[hint]} ${hintLabel(hint, question.revealedLetters)}`
@@ -172,7 +218,7 @@ export function PlayScreen({
                 type="button"
                 onClick={() => dispatch({ type: "giveUp" })}
                 onPointerDown={keepFocus}
-                className="rounded-2xl border-b-4 border-slate-300 bg-white px-2 py-3 font-bold text-slate-600 shadow-md transition hover:bg-slate-50 active:translate-y-0.5 active:border-b-2 sm:text-lg"
+                className={`rounded-2xl border-b-4 border-slate-300 bg-white px-2 font-bold text-slate-600 shadow-md transition hover:bg-slate-50 active:translate-y-0.5 active:border-b-2 ${isCompact ? "py-2" : "py-3 sm:text-lg"}`}
               >
                 🤷 Не знаю
               </button>
@@ -192,23 +238,71 @@ export function PlayScreen({
   );
 }
 
-function Prompt({ turn, question }: { turn: Turn; question: Question }) {
+interface ScreenArea {
+  top: number;
+  height: number;
+}
+
+/** A visible part this much shorter than the page means a device keyboard covers the rest. */
+const MIN_KEYBOARD_HEIGHT = 120;
+
+/**
+ * The part of the page in view above a device keyboard, or null while no keyboard is open (it
+ * hides, say, with Android's Back while the field keeps the focus). Watched while `typing`.
+ */
+function useAreaAboveKeyboard(typing: boolean): ScreenArea | null {
+  const [area, setArea] = useState<ScreenArea | null>(null);
+  useLayoutEffect(() => {
+    const viewport = window.visualViewport;
+    if (!typing || !viewport) return;
+    const update = () => {
+      const keyboardHeight = window.innerHeight - viewport.height * viewport.scale;
+      setArea(
+        keyboardHeight > MIN_KEYBOARD_HEIGHT
+          ? { top: viewport.offsetTop, height: viewport.height }
+          : null,
+      );
+    };
+    update();
+    viewport.addEventListener("resize", update);
+    viewport.addEventListener("scroll", update);
+    return () => {
+      viewport.removeEventListener("resize", update);
+      viewport.removeEventListener("scroll", update);
+    };
+  }, [typing]);
+  return typing ? area : null;
+}
+
+interface PromptProps {
+  turn: Turn;
+  question: Question;
+  /** Shorter, to leave room for the flag above a phone keyboard. */
+  compact: boolean;
+}
+
+function Prompt({ turn, question, compact }: PromptProps) {
+  const headingClass = `${compact ? "text-lg" : "text-3xl"} font-extrabold text-violet-900`;
   if (question.kind === "capital") {
     return (
       <div className="flex animate-rise flex-col items-center gap-1 text-center">
-        <p className="rounded-full bg-emerald-100 px-4 py-1 font-extrabold text-emerald-700">
-          ✓ {turn.country.uk.name}
-        </p>
-        <h1 className="text-3xl font-extrabold text-violet-900">А яка столиця?</h1>
+        {!compact && (
+          <p className="rounded-full bg-emerald-100 px-4 py-1 font-extrabold text-emerald-700">
+            ✓ {turn.country.uk.name}
+          </p>
+        )}
+        <h1 className={headingClass}>А яка столиця?</h1>
       </div>
     );
   }
+  // The question is plain by now; the flag gets the room.
+  if (compact && question.kind === "country") return null;
   return (
     <div className="text-center">
-      <h1 className="text-3xl font-extrabold text-violet-900">
+      <h1 className={headingClass}>
         {question.kind === "countryEnglish" ? "What country is this?" : "Яка це країна?"}
       </h1>
-      {question.kind === "countryEnglish" && (
+      {question.kind === "countryEnglish" && !compact && (
         <p className="font-bold text-slate-500">Напиши назву англійською</p>
       )}
     </div>
