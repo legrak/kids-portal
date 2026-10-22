@@ -71,10 +71,11 @@ describe("COUNTRIES", () => {
     expect(clashes).toEqual([]);
   });
 
-  test("tiny island states and obscure countries are excluded", () => {
-    expect(byCode("mh").tier).toBe("excluded");
-    expect(byCode("kn").tier).toBe("excluded");
-    expect(COUNTRIES.filter((c) => c.tier !== "excluded")).toHaveLength(166);
+  test("tiny island states and little-known countries are excluded", () => {
+    for (const code of ["mh", "kn", "gq", "pg"]) {
+      expect(byCode(code).tier).toBe("excluded");
+    }
+    expect(COUNTRIES.filter((c) => c.tier !== "excluded")).toHaveLength(127);
   });
 
   test("the well-known set has Ukraine and its western neighbours", () => {

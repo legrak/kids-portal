@@ -35,12 +35,20 @@ Open questions for Oleh are marked **[open]**.
   not UN members and are left out. Israel's capital is given as Jerusalem. **[open]** Keep this set?
 - **Russia and Belarus are in the game** as ordinary countries: it is a geography game. **[open]**
   Leave them out?
-- **Left out as tiny or obscure (28).** Island states outside Europe with fewer than about 1.5 million
-  people (Maldives, Mauritius, Seychelles, Comoros, Cabo Verde, São Tomé and Príncipe, Bahamas,
-  Trinidad and Tobago, Barbados, Fiji, Timor-Leste and all the small Caribbean and Pacific
-  states), plus Brunei. European microstates (Andorra, Monaco, San Marino, Liechtenstein, the
-  Vatican, Malta) stay. That leaves 166 countries. They stay in the data with `tier: "excluded"`, so
-  bringing one back is a one-word change. **[open]** Is the cut right?
+- **Left out (67), so 127 countries are in the game.** They stay in the data with
+  `tier: "excluded"`, so bringing one back is a one-word change. **[open]** Is the cut right?
+  - Tiny island states outside Europe (28): Maldives, Mauritius, Seychelles, Comoros, Cabo Verde,
+    São Tomé and Príncipe, Bahamas, Trinidad and Tobago, Barbados, Fiji, Timor-Leste, the small
+    Caribbean and Pacific states, plus Brunei.
+  - Countries a kid in Ukraine hardly ever hears of (39), added after Oleh named Equatorial Guinea
+    and Papua New Guinea mid-session. Africa: Equatorial Guinea, Guinea, Guinea-Bissau, Gambia,
+    Burkina Faso, Djibouti, Eritrea, Lesotho, Eswatini, Burundi, Togo, Benin, Mauritania, Sierra
+    Leone, Liberia, the Central African Republic, Gabon, the Republic of the Congo, Malawi, South
+    Sudan, Chad, Botswana, Rwanda. Asia: Bhutan, Laos, Cambodia, Myanmar, Yemen, Oman, Bahrain.
+    The Americas: Belize, Guyana, Suriname, El Salvador, Honduras, Nicaragua, Guatemala, Haiti.
+    Oceania: Papua New Guinea.
+  - All of Europe stays, microstates included: it is the part of the world a kid in Ukraine knows
+    best.
 - **A "well-known" set of 45 countries** (`tier: "famous"`): Ukraine's neighbours in the EU, most
   of Europe and the big famous countries elsewhere. It's for younger kids (see the settings).
 - **Names.** Ukrainian names follow Ukrainian Wikipedia and use the apostrophe ’; common
