@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "kids-portal",
+  "compatibility_date": "2026-10-22",
+  // A static site: Cloudflare serves the built files, no Worker code runs.
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}
