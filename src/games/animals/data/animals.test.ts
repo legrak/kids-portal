@@ -9,7 +9,8 @@ const STANDARD_THUMB = /\/thumb\/.+\/(250|330|500|960)px-[^/]+$/;
 describe("animals", () => {
   test("have unique ids and names", () => {
     expect(new Set(ANIMALS.map((animal) => animal.id)).size).toBe(ANIMALS.length);
-    expect(new Set(ANIMALS.map((animal) => animal.name)).size).toBe(ANIMALS.length);
+    expect(new Set(ANIMALS.map((animal) => animal.uk)).size).toBe(ANIMALS.length);
+    expect(new Set(ANIMALS.map((animal) => animal.en)).size).toBe(ANIMALS.length);
     expect(ANIMALS.length).toBeGreaterThanOrEqual(25);
   });
 
@@ -45,7 +46,7 @@ describe("animals", () => {
   });
 
   test("animalById finds an animal or fails", () => {
-    expect(animalById("cow").name).toBe("корова");
+    expect(animalById("cow").uk).toBe("корова");
     expect(() => animalById("unicorn")).toThrow();
   });
 });

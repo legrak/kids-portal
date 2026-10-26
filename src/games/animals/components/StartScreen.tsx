@@ -1,10 +1,18 @@
 import { HomeButton } from "../../../components/HomeButton";
+import { LanguageSwitch } from "../../../components/LanguageSwitch";
+import type { GameLanguage } from "../../../shared/language";
 import { ANIMALS, animalById, type Credit } from "../data/animals";
 
 /** Animals on the start screen. */
 const PARADE = ["cow", "cat", "dog"];
 
-export function StartScreen({ onStart }: { onStart: () => void }) {
+interface StartScreenProps {
+  language: GameLanguage;
+  onLanguageChange: (language: GameLanguage) => void;
+  onStart: () => void;
+}
+
+export function StartScreen({ language, onLanguageChange, onStart }: StartScreenProps) {
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col items-center gap-6 px-4 pt-3 pb-8 sm:gap-8 short:gap-3 short:pb-4">
       <div className="flex w-full">
@@ -29,6 +37,7 @@ export function StartScreen({ onStart }: { onStart: () => void }) {
           Слухай, хто це кличе, і торкнися тієї тваринки!
         </p>
       </header>
+      <LanguageSwitch language={language} onChange={onLanguageChange} />
       <button
         type="button"
         onClick={onStart}
@@ -56,7 +65,7 @@ function Credits() {
       <ul className="mt-2 flex flex-col gap-1">
         {ANIMALS.map((animal) => (
           <li key={animal.id}>
-            <b className="text-slate-800">{animal.name}</b>: фото —{" "}
+            <b className="text-slate-800">{animal.uk}</b>: фото —{" "}
             <CreditLine credit={animal.photo} />; звук — <CreditLine credit={animal.sound} />
           </li>
         ))}

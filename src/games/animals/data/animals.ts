@@ -29,7 +29,9 @@ export interface AnimalSound extends Credit {
 
 export interface Animal extends RoundItem {
   /** The Ukrainian name, as the game asks: "Де корова?" */
-  name: string;
+  uk: string;
+  /** The English name, as the game asks: "Where is the cow?" */
+  en: string;
   photo: AnimalPhoto;
   sound: AnimalSound;
 }
@@ -41,7 +43,8 @@ export interface Animal extends RoundItem {
 export const ANIMALS: Animal[] = [
   {
     id: "cat",
-    name: "кіт",
+    uk: "кіт",
+    en: "cat",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Felis_catus-cat_on_snow.jpg/500px-Felis_catus-cat_on_snow.jpg",
       author: "Von.grzanka",
@@ -61,7 +64,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "dog",
-    name: "собака",
+    uk: "собака",
+    en: "dog",
     lookalikes: "dogs",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Labrador_Retriever_snow.jpg/500px-Labrador_Retriever_snow.jpg",
@@ -81,7 +85,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "cow",
-    name: "корова",
+    uk: "корова",
+    en: "cow",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/HF_in_der_Rh%C3%B6n_auf_der_Weide.jpg/500px-HF_in_der_Rh%C3%B6n_auf_der_Weide.jpg",
       author: "Verum",
@@ -99,7 +104,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "pig",
-    name: "свиня",
+    uk: "свиня",
+    en: "pig",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/G%C3%B6ttinger_Minischwein_qtl1.jpg/500px-G%C3%B6ttinger_Minischwein_qtl1.jpg",
       author: "Quartl",
@@ -117,7 +123,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "horse",
-    name: "кінь",
+    uk: "кінь",
+    en: "horse",
     lookalikes: "horses",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/White_horse_portrait.jpg/500px-White_horse_portrait.jpg",
@@ -137,7 +144,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "donkey",
-    name: "віслюк",
+    uk: "віслюк",
+    en: "donkey",
     lookalikes: "horses",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Donkey_%28Equus_africanus_asinus%29_at_Dev%C3%ADn_Castle_%28Bratislava%2C_Slovakia%29_julesvernex2.jpg/500px-Donkey_%28Equus_africanus_asinus%29_at_Dev%C3%ADn_Castle_%28Bratislava%2C_Slovakia%29_julesvernex2.jpg",
@@ -160,7 +168,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "sheep",
-    name: "вівця",
+    uk: "вівця",
+    en: "sheep",
     lookalikes: "sheepAndGoats",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Ovis_aries_in_Bowness-on-Windermere%2C_England.jpg/500px-Ovis_aries_in_Bowness-on-Windermere%2C_England.jpg",
@@ -181,7 +190,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "goat",
-    name: "коза",
+    uk: "коза",
+    en: "goat",
     lookalikes: "sheepAndGoats",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Capra_aegagrus_hircus%2C_Neuss_%28DE%29_--_2023_--_0009.jpg/500px-Capra_aegagrus_hircus%2C_Neuss_%28DE%29_--_2023_--_0009.jpg",
@@ -202,7 +212,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "hen",
-    name: "курка",
+    uk: "курка",
+    en: "hen",
     lookalikes: "chickens",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Hen_on_street.jpg/500px-Hen_on_street.jpg",
@@ -222,7 +233,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "rooster",
-    name: "півень",
+    uk: "півень",
+    en: "rooster",
     lookalikes: "chickens",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Junglefowl_on_tree.jpg/500px-Junglefowl_on_tree.jpg",
@@ -241,7 +253,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "duck",
-    name: "качка",
+    uk: "качка",
+    en: "duck",
     lookalikes: "waterfowl",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Male_mallard_duck_2.jpg/500px-Male_mallard_duck_2.jpg",
@@ -263,7 +276,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "goose",
-    name: "гуска",
+    uk: "гуска",
+    en: "goose",
     lookalikes: "waterfowl",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Gr%C3%BCnau_Cumberland_Wildpark_Emdener_Gans-3304.jpg/500px-Gr%C3%BCnau_Cumberland_Wildpark_Emdener_Gans-3304.jpg",
@@ -284,7 +298,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "turkey",
-    name: "індик",
+    uk: "індик",
+    en: "turkey",
     lookalikes: "chickens",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Meleagris_gallopavo_displaying_at_Deer_Island_Open_Space_Preserve.jpg/500px-Meleagris_gallopavo_displaying_at_Deer_Island_Open_Space_Preserve.jpg",
@@ -306,7 +321,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "tiger",
-    name: "тигр",
+    uk: "тигр",
+    en: "tiger",
     lookalikes: "bigCats",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Bengal_tiger_%28Panthera_tigris_tigris%29_female_3.jpg/500px-Bengal_tiger_%28Panthera_tigris_tigris%29_female_3.jpg",
@@ -329,7 +345,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "lion",
-    name: "лев",
+    uk: "лев",
+    en: "lion",
     lookalikes: "bigCats",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Serengeti_National_Park_08_-_lion_-_Panthera_leo.jpg/500px-Serengeti_National_Park_08_-_lion_-_Panthera_leo.jpg",
@@ -352,7 +369,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "bear",
-    name: "ведмідь",
+    uk: "ведмідь",
+    en: "bear",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Brown_bear_%28Ursus_arctos_arctos%29_running.jpg/500px-Brown_bear_%28Ursus_arctos_arctos%29_running.jpg",
       author: "Malene Thyssen",
@@ -373,7 +391,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "wolf",
-    name: "вовк",
+    uk: "вовк",
+    en: "wolf",
     lookalikes: "dogs",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Scandinavian_grey_wolf_Canis_lupus.jpg/500px-Scandinavian_grey_wolf_Canis_lupus.jpg",
@@ -393,7 +412,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "elephant",
-    name: "слон",
+    uk: "слон",
+    en: "elephant",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/African_elephant_%28Loxodonta_africana%29_3.jpg/500px-African_elephant_%28Loxodonta_africana%29_3.jpg",
       author: "Charles J. Sharp",
@@ -411,7 +431,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "monkey",
-    name: "мавпа",
+    uk: "мавпа",
+    en: "monkey",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Chimpanc%C3%A9_com%C3%BAn_%28Pan_troglodytes%29%2C_Tierpark_Hellabrunn%2C_M%C3%BAnich%2C_Alemania%2C_2012-06-17%2C_DD_04.jpg/500px-Chimpanc%C3%A9_com%C3%BAn_%28Pan_troglodytes%29%2C_Tierpark_Hellabrunn%2C_M%C3%BAnich%2C_Alemania%2C_2012-06-17%2C_DD_04.jpg",
       author: "Diego Delso",
@@ -433,7 +454,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "deer",
-    name: "олень",
+    uk: "олень",
+    en: "deer",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Cervus_elaphus_Luc_Viatour_5.jpg/500px-Cervus_elaphus_Luc_Viatour_5.jpg",
       position: "50% 25%",
@@ -454,7 +476,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "squirrel",
-    name: "білка",
+    uk: "білка",
+    en: "squirrel",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Red_squirrel_%2821808%29.jpg/500px-Red_squirrel_%2821808%29.jpg",
       author: "Rhododendrites",
@@ -475,7 +498,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "frog",
-    name: "жаба",
+    uk: "жаба",
+    en: "frog",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Grenouille_verte_%28Pelophylax_kl._esculentus%29.jpg/500px-Grenouille_verte_%28Pelophylax_kl._esculentus%29.jpg",
       position: "30% 50%",
@@ -495,7 +519,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "owl",
-    name: "сова",
+    uk: "сова",
+    en: "owl",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Waldkauz_Strix_aluco_%28Linnaeus%2C_1785%29.jpg/500px-Waldkauz_Strix_aluco_%28Linnaeus%2C_1785%29.jpg",
       position: "50% 16%",
@@ -516,7 +541,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "crow",
-    name: "ворона",
+    uk: "ворона",
+    en: "crow",
     lookalikes: "greyBirds",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Corneille_mantel%C3%A9e_-_Hooded_crow_-_Gri_le%C5%9F_kargas%C4%B1_03.jpg/500px-Corneille_mantel%C3%A9e_-_Hooded_crow_-_Gri_le%C5%9F_kargas%C4%B1_03.jpg",
@@ -539,7 +565,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "cuckoo",
-    name: "зозуля",
+    uk: "зозуля",
+    en: "cuckoo",
     lookalikes: "greyBirds",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Common_cuckoo_in_kathmandu_valley.jpg/500px-Common_cuckoo_in_kathmandu_valley.jpg",
@@ -561,7 +588,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "gull",
-    name: "чайка",
+    uk: "чайка",
+    en: "seagull",
     lookalikes: "waterfowl",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/European_herring_gull_%28Larus_argentatus%29._Saint-Malo%2C_France.jpg/500px-European_herring_gull_%28Larus_argentatus%29._Saint-Malo%2C_France.jpg",
@@ -585,7 +613,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "bee",
-    name: "бджола",
+    uk: "бджола",
+    en: "bee",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apis_mellifera_2013_Zurich_2.jpg/500px-Apis_mellifera_2013_Zurich_2.jpg",
       author: "Sputniktilt",
@@ -605,7 +634,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "dolphin",
-    name: "дельфін",
+    uk: "дельфін",
+    en: "dolphin",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Delf%C3%ADn_mular_%28Tursiops_truncatus%29%2C_isla_de_San_Crist%C3%B3bal%2C_islas_Gal%C3%A1pagos%2C_Ecuador%2C_2015-07-24%2C_DD_86.JPG/500px-Delf%C3%ADn_mular_%28Tursiops_truncatus%29%2C_isla_de_San_Crist%C3%B3bal%2C_islas_Gal%C3%A1pagos%2C_Ecuador%2C_2015-07-24%2C_DD_86.JPG",
       author: "Diego Delso",
@@ -627,7 +657,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "pigeon",
-    name: "голуб",
+    uk: "голуб",
+    en: "pigeon",
     lookalikes: "greyBirds",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Feral_pigeon_%28Columba_livia_domestica%29%2C_2017-05-27.jpg/500px-Feral_pigeon_%28Columba_livia_domestica%29%2C_2017-05-27.jpg",
@@ -650,7 +681,8 @@ export const ANIMALS: Animal[] = [
   },
   {
     id: "woodpecker",
-    name: "дятел",
+    uk: "дятел",
+    en: "woodpecker",
     photo: {
       url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Greater_Spotted_Woodpecker_%2841554059345%29.jpg/500px-Greater_Spotted_Woodpecker_%2841554059345%29.jpg",
       position: "50% 35%",

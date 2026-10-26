@@ -92,9 +92,15 @@ OK), which deploys the site.
 - **A card's 🔊 plays that card's animal**, so a kid can listen to each and compare it with the
   sound asked for; the 🔊 by the question repeats the question and the sound. (Open question: the
   card's button could replay the asked sound instead.)
-- **Voice.** `speechSynthesis` with a Ukrainian voice when the browser has one (iOS and macOS have
-  "Lesya", which iOS may need downloaded; Windows Chrome likely has none). If the voice never says
-  it finished, the sound starts after 3 s anyway. Without a voice: the text and the sound.
+- **Voice.** `speechSynthesis` with a voice of each language asked in, when the browser has one
+  (iOS and macOS have the Ukrainian "Lesya", which iOS may need downloaded; Windows Chrome likely
+  has no Ukrainian voice). If the voice never says it finished, the sound starts after 3 s a
+  phrase anyway. Without a voice: the text and the sound.
+- **Languages** (added on 2026-10-26, Oleh's request). The start screen has the switch of the
+  colour game: UA, ENG or UA+ENG (the default), remembered in the browser apart from the colour
+  game's, with the same notice when the device lacks a voice. The question and the heading after
+  a find follow it: "Де корова? Where is the cow?", "Це корова! It's a cow!". The animal's sound
+  plays once the last phrase is said.
 - **Sound on phones.** iOS plays sound from a timer only on a player that has already played inside
   a tap, so the Play tap starts one reused `<audio>` with a moment of silence, and every animal
   plays through it. The page also tells iOS it plays sound on purpose (`audioSession`), so the

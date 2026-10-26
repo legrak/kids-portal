@@ -1,5 +1,5 @@
-/** If the voice never says it has finished, the speech counts as over after this. */
-const SPEECH_TIMEOUT_MS = 6000;
+/** If the voice never says it has finished, the speech counts as over after this per phrase. */
+const PHRASE_TIMEOUT_MS = 3000;
 
 /** A phrase to say, and the language of the voice to say it in ("uk", "en"). */
 export interface Phrase {
@@ -71,10 +71,12 @@ export function voiceFor(lang: string): SpeechSynthesisVoice | undefined {
 export function say(phrases: readonly Phrase[], onDone?: () => void): void {
   const speech = globalThis.speechSynthesis;
   let last: SpeechSynthesisUtterance | undefined;
+  let count = 0;
   speech?.cancel();
   for (const { text, lang } of phrases) {
     const voice = voiceFor(lang);
     if (!speech || !voice) continue;
+    count++;
     last = new SpeechSynthesisUtterance(text);
     last.voice = voice;
     last.lang = voice.lang;
@@ -93,7 +95,7 @@ export function say(phrases: readonly Phrase[], onDone?: () => void): void {
     clearTimeout(timeout);
     onDone();
   };
-  const timeout = setTimeout(finish, SPEECH_TIMEOUT_MS);
+  const timeout = setTimeout(finish, PHRASE_TIMEOUT_MS * count);
   last.onend = finish;
   last.onerror = finish;
 }

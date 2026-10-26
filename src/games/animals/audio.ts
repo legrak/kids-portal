@@ -1,9 +1,6 @@
 import { allowSoundWithRingerOff } from "../../shared/sound";
-import { voiceFor } from "../../shared/speech";
+import { type Phrase, say } from "../../shared/speech";
 import type { AnimalSound } from "./data/animals";
-
-/** If the voice never says it has finished, the animal's sound starts after this anyway. */
-const SPEECH_TIMEOUT_MS = 3000;
 
 let player: HTMLAudioElement | null = null;
 /** Bumped by every new sound or question, so a late callback of an old one does nothing. */
@@ -69,33 +66,17 @@ export function stopAnimalSounds(): void {
   player?.pause();
 }
 
-/** Asks aloud where the animal is, when the browser has a Ukrainian voice, then plays its sound. */
-export function askAbout(name: string, sound: AnimalSound): void {
+/** Asks aloud where the animal is, in the voices the browser has, then plays its sound. */
+export function askAbout(question: readonly Phrase[], sound: AnimalSound): void {
   const ask = ++current;
   player?.pause();
-  const voice = voiceFor("uk");
-  if (!voice) {
+  say(question, () => {
+    if (ask !== current) return;
+    current++;
+    // After a timeout the voice may still be speaking, or only starting.
+    window.speechSynthesis?.cancel();
     play(sound);
-    return;
-  }
-  const playOnce = () => {
-    window.clearTimeout(timeout);
-    if (ask === current) {
-      current++;
-      // After the timeout the voice may still be speaking, or only starting.
-      window.speechSynthesis.cancel();
-      play(sound);
-    }
-  };
-  const timeout = window.setTimeout(playOnce, SPEECH_TIMEOUT_MS);
-  const question = new SpeechSynthesisUtterance(`Де ${name}?`);
-  question.voice = voice;
-  question.lang = voice.lang;
-  question.rate = 0.9;
-  question.onend = playOnce;
-  question.onerror = playOnce;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(question);
+  });
 }
 
 /**

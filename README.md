@@ -16,8 +16,9 @@ deploys to Cloudflare as plain files, with no server.
 
 - 30 animals with a sound a kid can know, from the farm, the forest and the zoo; lookalikes (a
   horse and a donkey, a hen and a rooster) never share a round.
-- The game asks "Де корова?" in text, says it aloud when the browser has a Ukrainian voice, and
-  plays the animal's sound; every card can play its own animal too.
+- The game asks "Де корова?", "Where is the cow?" or both (the default), as picked on the start
+  screen, in text and aloud with the browser's voices, then plays the animal's sound; every card
+  can play its own animal too.
 - No score and no losing: a wrong tap shakes the card and plays the sound again, a right one gets
   confetti, and the next three animals come by themselves. An animal isn't asked again until all
   were.

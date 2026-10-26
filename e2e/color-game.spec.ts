@@ -48,7 +48,7 @@ test("the game asks aloud in Ukrainian and English, and the next four come by th
   await page.clock.runFor(1700);
   await expect(page.getByRole("heading", { name: `Так, це ${first.uk}! 🎉` })).toBeVisible();
 
-  await page.clock.runFor(1000);
+  await page.clock.runFor(2500);
   await expect(question(page)).toBeVisible();
   const second = await askedColor(page);
   expect(second.id).not.toBe(first.id);
