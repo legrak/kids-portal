@@ -1,5 +1,5 @@
-import { expect, type Page, test } from "@playwright/test";
 import { ANIMALS } from "../src/games/animals/data/animals";
+import { expect, type Page, test } from "./fixtures";
 
 const ANIMAL_IDS_BY_NAME = new Map(ANIMALS.map((animal) => [animal.name, animal.id]));
 

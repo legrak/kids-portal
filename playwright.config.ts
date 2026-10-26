@@ -12,7 +12,8 @@ export default defineConfig({
   use: {
     baseURL: `http://localhost:${PORT}`,
     trace: "on-first-retry",
-    // The games play melodies and animal sounds; a test run should be silent.
+    // The games play melodies and animal sounds; a test run should be silent. The voices are
+    // silenced in e2e/fixtures.ts.
     launchOptions: { args: ["--mute-audio"] },
   },
   // The built site, as it is deployed.

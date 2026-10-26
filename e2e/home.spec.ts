@@ -1,4 +1,4 @@
-import { expect, type Page, test } from "@playwright/test";
+import { expect, type Page, test } from "./fixtures";
 
 /** The animal card shows photos from Wikimedia; the tests answer for it, so they run offline. */
 async function servePhotosLocally(page: Page) {

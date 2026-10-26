@@ -1,6 +1,6 @@
-import { expect, type Page, test } from "@playwright/test";
 import { COUNTRIES, type Country } from "../src/games/flags/data/countries";
 import { REGION_NAMES } from "../src/games/flags/labels";
+import { expect, type Page, test } from "./fixtures";
 
 const COUNTRIES_BY_CODE = new Map(COUNTRIES.map((country) => [country.code, country]));
 
