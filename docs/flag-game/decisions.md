@@ -90,6 +90,26 @@ The open questions of the first session were all confirmed by Oleh.
 - **Filling every slot checks the answer at once**, so with the slots on there is nothing to press.
 - **"Не знаю" ends the turn** and shows the answer (with the capital, in the capital level).
 
+## The easy level
+
+Added on 2026-10-26. Oleh chose where the level lives, what a wrong pick does, which hints stay
+and where the wrong names come from; the rule on lookalike flags is mine.
+- **Four names to pick from** instead of typing: a fourth level, «Легко», first in the menu. It
+  works with any part of the world and either set of countries.
+- **The three wrong names** are random countries of the same game (its part of the world and set),
+  all different. A game of fewer than four countries (the well-known countries of Africa are two)
+  takes them from all countries of its part of the world.
+- **Flags that look the same are never offered for each other:** Indonesia and Monaco, Chad and
+  Romania, the Netherlands and Luxembourg differ only in shade or proportions, so both names would
+  look right.
+- **A wrong pick** shakes, stays crossed out and names the other country, and the kid picks again.
+  Unlike a wrong typed answer, it costs a star: 3 on the first try, 2 on the second, 1 on the third,
+  and the map hint costs a star too. After three wrong picks only the right name is left, so the
+  turn ends with the answer shown and no stars.
+- **Hints:** only the map, plus «Не знаю». No keyboard and no check button.
+- **A replay of the hard flags** deals new names in a new order, so the kid can't pick by the
+  place of the button.
+
 ## Interface
 
 - **Typing.** The answer is a real text field, so phones and tablets open their own keyboard (Oleh's

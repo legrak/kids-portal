@@ -5,7 +5,12 @@ import { type GameAction, type GameState, gameReducer, initialGameState } from "
 const SETTINGS = { mode: "countryAndCapital", region: "world", countrySet: "all" } as const;
 
 function started(deck: string[]): GameState {
-  return gameReducer(initialGameState(SETTINGS), { type: "start", settings: SETTINGS, deck });
+  return gameReducer(initialGameState(SETTINGS), {
+    type: "start",
+    settings: SETTINGS,
+    deck,
+    choices: {},
+  });
 }
 
 function feedbackAfter(state: GameState, ...actions: GameAction[]) {
@@ -35,6 +40,30 @@ describe("feedbackFor", () => {
     expect(feedback).toEqual({ sound: "wrong", confetti: null });
 
     expect(feedbackAfter(after, { type: "submit" }).feedback).toEqual({
+      sound: "wrong",
+      confetti: null,
+    });
+  });
+
+  test("in the choice mode, a right pick plays the happy sound and each wrong pick the soft one", () => {
+    const settings = { ...SETTINGS, mode: "choice" } as const;
+    const pick = (code: string): GameAction => ({ type: "pick", code });
+    const choosing = gameReducer(initialGameState(settings), {
+      type: "start",
+      settings,
+      deck: ["fr"],
+      choices: { fr: ["de", "fr", "pl", "it"] },
+    });
+
+    const { after: oneWrong, feedback } = feedbackAfter(choosing, pick("de"));
+    expect(feedback).toEqual({ sound: "wrong", confetti: null });
+    expect(feedbackAfter(oneWrong, pick("fr")).feedback).toEqual({
+      sound: "correct",
+      confetti: "answer",
+    });
+    // The third wrong pick ends the turn with the answer shown.
+    const twoWrong = gameReducer(oneWrong, pick("pl"));
+    expect(feedbackAfter(twoWrong, pick("it")).feedback).toEqual({
       sound: "wrong",
       confetti: null,
     });

@@ -41,11 +41,13 @@ export function MenuScreen({ settings, muted, onToggleMute, onChange, onStart }:
         <h1 className="bg-linear-to-r from-violet-600 via-fuchsia-500 to-amber-500 bg-clip-text text-5xl font-black text-transparent sm:text-6xl">
           Вгадай країну
         </h1>
-        <p className="text-lg font-bold text-slate-600">Дивись на прапор і пиши, яка це країна!</p>
+        <p className="text-lg font-bold text-slate-600">
+          Дивись на прапор і вгадуй, яка це країна!
+        </p>
       </header>
 
       <Section title="Що вгадуємо?">
-        <div className="grid w-full gap-3 sm:grid-cols-3">
+        <div className="grid w-full gap-3 sm:grid-cols-4">
           {MODES.map((mode) => (
             <Choice
               key={mode.value}

@@ -14,9 +14,16 @@ import {
 
 const DECK = ["fr", "ir", "nz", "de", "pl", "it", "es", "pt", "jp", "cn", "us", "ca", "br"];
 
+/** The names to pick from in the choice mode. */
+const CHOICES = {
+  fr: ["de", "fr", "pl", "it"],
+  ir: ["ir", "iq", "tr", "eg"],
+  us: ["us", "ca", "mx", "br"],
+};
+
 function playDeck(mode: GameMode, deck: string[], ...actions: GameAction[]): GameState {
   const settings = { mode, region: "world", countrySet: "all" } as const;
-  return [{ type: "start", settings, deck } as GameAction, ...actions].reduce(
+  return [{ type: "start", settings, deck, choices: CHOICES } as GameAction, ...actions].reduce(
     gameReducer,
     initialGameState(settings),
   );
@@ -87,11 +94,15 @@ describe("rounds", () => {
     const playing = play("country");
 
     expect(gameReducer(playing, { type: "nextRound" })).toBe(playing);
-    expect(gameReducer(playing, { type: "replay", deck: ["fr"] })).toBe(playing);
+    expect(gameReducer(playing, { type: "replay", deck: ["fr"], choices: {} })).toBe(playing);
   });
 
   test("replaying a list of flags keeps the flags not shown yet", () => {
-    const replay = play("country", ...giveUpAndGoOn(ROUND_SIZE), { type: "replay", deck: ["fr"] });
+    const replay = play("country", ...giveUpAndGoOn(ROUND_SIZE), {
+      type: "replay",
+      deck: ["fr"],
+      choices: {},
+    });
 
     expect(replay.roundCodes).toEqual(["fr"]);
     expect(replay.upcoming).toEqual(DECK.slice(ROUND_SIZE));
@@ -99,7 +110,12 @@ describe("rounds", () => {
 
   test("a game with no countries stays in the menu", () => {
     const settings = { mode: "country", region: "world", countrySet: "all" } as const;
-    const state = gameReducer(initialGameState(settings), { type: "start", settings, deck: [] });
+    const state = gameReducer(initialGameState(settings), {
+      type: "start",
+      settings,
+      deck: [],
+      choices: {},
+    });
 
     expect(state.screen).toBe("menu");
   });
@@ -325,5 +341,75 @@ describe("country and capital", () => {
 
     expect(turnOf(state).questions.map((q) => q.status)).toEqual(["revealed", "revealed"]);
     expect(state.results).toEqual([{ code: "fr", stars: 0 }]);
+  });
+});
+
+describe("choice", () => {
+  const pick = (code: string): GameAction => ({ type: "pick", code });
+
+  test("the kid picks the country from four names, and the right one at once gives three stars", () => {
+    const playing = play("choice");
+    expect(question(playing).options).toEqual(CHOICES.fr);
+
+    const answered = gameReducer(playing, pick("fr"));
+    expect(question(answered).status).toBe("correct");
+    expect(answered.results).toEqual([{ code: "fr", stars: 3 }]);
+  });
+
+  test("a wrong pick names the other country, and the kid picks again", () => {
+    const state = play("choice", pick("de"));
+
+    expect(question(state).status).toBe("asking");
+    expect(question(state).mistake).toEqual({ kind: "other", code: "de" });
+    expect(question(state).wrongPicks).toEqual(["de"]);
+    expect(gameReducer(state, pick("de"))).toBe(state);
+  });
+
+  test("each wrong pick and the map hint cost a star", () => {
+    expect(play("choice", pick("de"), pick("fr")).results).toEqual([{ code: "fr", stars: 2 }]);
+    expect(play("choice", { type: "hint" }, pick("fr")).results).toEqual([
+      { code: "fr", stars: 2 },
+    ]);
+    expect(play("choice", pick("de"), pick("pl"), pick("fr")).results).toEqual([
+      { code: "fr", stars: 1 },
+    ]);
+    expect(play("choice", { type: "hint" }, pick("de"), pick("pl"), pick("fr")).results).toEqual([
+      { code: "fr", stars: 1 },
+    ]);
+    expect(play("choice", { type: "hint" }, pick("de"), pick("fr")).results).toEqual([
+      { code: "fr", stars: 1 },
+    ]);
+  });
+
+  test("after three wrong picks the turn ends with the answer shown and no stars", () => {
+    const state = play("choice", pick("de"), pick("pl"), pick("it"));
+
+    expect(question(state).status).toBe("revealed");
+    expect(state.results).toEqual([{ code: "fr", stars: 0 }]);
+  });
+
+  test("the map is the only hint", () => {
+    const hinted = play("choice", { type: "hint" });
+
+    expect(takenHints(question(hinted))).toEqual(["map"]);
+    expect(nextHint(question(hinted), "Франція")).toBeNull();
+  });
+
+  test("a name that is not offered does nothing", () => {
+    const playing = play("choice");
+
+    expect(gameReducer(playing, pick("us"))).toBe(playing);
+  });
+
+  test("a replay deals new names, and the flags not shown yet keep theirs", () => {
+    const newNames = ["fr", "es", "pt", "be"];
+    const replay = play("choice", ...giveUpAndGoOn(ROUND_SIZE), {
+      type: "replay",
+      deck: ["fr"],
+      choices: { fr: newNames },
+    });
+
+    expect(question(replay).options).toEqual(newNames);
+    expect(replay.choices.us).toEqual(CHOICES.us);
   });
 });

@@ -25,6 +25,7 @@ export const MODES: readonly {
   description: string;
   emoji: string;
 }[] = [
+  { value: "choice", title: "Легко", description: "Вибери з чотирьох", emoji: "👆" },
   { value: "country", title: "Країна", description: "Назва українською", emoji: "🚩" },
   {
     value: "countryAndCapital",

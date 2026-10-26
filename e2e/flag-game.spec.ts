@@ -122,6 +122,28 @@ test("giving up shows the answer, and ten flags make a round with a summary", as
   expect(firstRound).not.toContain((await askedCountry(page)).code);
 });
 
+test("the easy level offers four names, and a wrong pick costs a star", async ({ page }) => {
+  await startGame(page, "Легко");
+  const country = await askedCountry(page);
+  const choices = page.getByRole("group", { name: "Вибери країну" });
+
+  const names = await choices.getByRole("button").allTextContents();
+  expect(names).toHaveLength(4);
+  expect(new Set(names).size).toBe(4);
+  expect(names).toContain(country.uk.name);
+  await expect(answerField(page)).toHaveCount(0);
+
+  const wrong = names.find((name) => name !== country.uk.name) as string;
+  await choices.getByRole("button", { name: wrong, exact: true }).click();
+  await expect(page.getByText(`Ні, це не ${wrong}. Спробуй ще!`)).toBeVisible();
+  await expect(choices.getByRole("button", { name: wrong, exact: true })).toBeDisabled();
+
+  await choices.getByRole("button", { name: country.uk.name, exact: true }).click();
+  const result = page.getByRole("status");
+  await expect(result).toContainText(country.uk.name);
+  await expect(result.getByRole("img", { name: "2 з 3 зірок" })).toBeVisible();
+});
+
 test("the capital level asks for the capital after the country", async ({ page }) => {
   await startGame(page, "Країна і столиця");
   const country = await askedCountry(page);

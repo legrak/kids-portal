@@ -13,6 +13,7 @@ import {
   targetAnswer,
 } from "../logic/game";
 import { AnswerField } from "./AnswerField";
+import { ChoiceOptions } from "./ChoiceOptions";
 import { FlagImage, preloadFlag } from "./FlagImage";
 import { OnScreenKeyboard } from "./OnScreenKeyboard";
 import { ResultBanner } from "./ResultBanner";
@@ -52,6 +53,7 @@ export function PlayScreen({
   const question = turn.questions[turn.current] as Question;
   const target = targetAnswer(country, question.kind);
   const language = question.kind === "countryEnglish" ? "en" : "uk";
+  const isChoice = question.kind === "countryChoice";
   const isOver = isTurnOver(turn);
   const isSolved = isOver && turn.questions.every((q) => q.status === "correct");
   const advanceAfterMs = isSolved ? ADVANCE_AFTER_SOLVED_MS : ADVANCE_AFTER_REVEALED_MS;
@@ -176,29 +178,41 @@ export function PlayScreen({
           ) : (
             <Prompt turn={turn} question={question} compact={isCompact} />
           )}
-          <AnswerField
-            question={question}
-            target={target}
-            language={language}
-            isOver={isOver}
-            mistakeText={mistakeText(question)}
-            inputRef={inputRef}
-            onTypeText={typeText}
-            onSubmit={submitOrGoOn}
-            onTouchTypingChange={setTouchTyping}
-          />
+          {isChoice ? (
+            !isOver && (
+              <ChoiceOptions
+                question={question}
+                mistakeText={mistakeText(question)}
+                onPick={(code) => dispatch({ type: "pick", code })}
+              />
+            )
+          ) : (
+            <AnswerField
+              question={question}
+              target={target}
+              language={language}
+              isOver={isOver}
+              mistakeText={mistakeText(question)}
+              inputRef={inputRef}
+              onTypeText={typeText}
+              onSubmit={submitOrGoOn}
+              onTouchTypingChange={setTouchTyping}
+            />
+          )}
           {!isOver && (
             <div
               className={`grid w-full gap-2 ${isCompact ? "grid-cols-3 leading-tight" : "grid-cols-2"}`}
             >
-              <button
-                type="button"
-                onClick={() => dispatch({ type: "submit" })}
-                onPointerDown={keepFocus}
-                className={`rounded-2xl border-b-4 border-emerald-700 bg-emerald-500 font-extrabold text-white shadow-md transition hover:bg-emerald-400 active:translate-y-0.5 active:border-b-2 ${isCompact ? "py-2" : "col-span-2 py-3 text-xl"}`}
-              >
-                ✓ Перевірити
-              </button>
+              {!isChoice && (
+                <button
+                  type="button"
+                  onClick={() => dispatch({ type: "submit" })}
+                  onPointerDown={keepFocus}
+                  className={`rounded-2xl border-b-4 border-emerald-700 bg-emerald-500 font-extrabold text-white shadow-md transition hover:bg-emerald-400 active:translate-y-0.5 active:border-b-2 ${isCompact ? "py-2" : "col-span-2 py-3 text-xl"}`}
+                >
+                  ✓ Перевірити
+                </button>
+              )}
               <button
                 type="button"
                 disabled={!hint}
@@ -224,7 +238,7 @@ export function PlayScreen({
               </button>
             </div>
           )}
-          {!isOver && (
+          {!isOver && !isChoice && (
             <OnScreenKeyboard
               language={language}
               onKey={(char) => typeText(question.typed + char)}

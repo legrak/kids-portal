@@ -7,7 +7,8 @@ import { SummaryScreen } from "./components/SummaryScreen";
 import { loadWorldShapes } from "./components/worldShapes";
 import { COUNTRIES } from "./data/countries";
 import { feedbackFor } from "./feedback";
-import { type GameState, gameReducer, initialGameState } from "./logic/game";
+import { dealChoices, type GameChoices } from "./logic/choices";
+import { type GameSettings, type GameState, gameReducer, initialGameState } from "./logic/game";
 import { countryPool, shuffle } from "./logic/pool";
 import { loadSettings, type StoredSettings, saveSettings } from "./settingsStorage";
 
@@ -21,7 +22,7 @@ export function FlagGame() {
 
   function startGame() {
     const deck = shuffle(countryPool(COUNTRIES, settings)).map((country) => country.code);
-    dispatch({ type: "start", settings, deck });
+    dispatch({ type: "start", settings, deck, choices: choicesFor(deck, settings) });
     // The map is only needed for a hint, but loading it now makes the hint instant.
     void loadWorldShapes();
   }
@@ -48,7 +49,13 @@ export function FlagGame() {
         results={state.results}
         upcomingCount={state.upcoming.length}
         onNextRound={() => dispatch({ type: "nextRound" })}
-        onReplay={(codes) => dispatch({ type: "replay", deck: shuffle(codes) })}
+        onReplay={(codes) =>
+          dispatch({
+            type: "replay",
+            deck: shuffle(codes),
+            choices: choicesFor(codes, state.settings),
+          })
+        }
         onMenu={() => dispatch({ type: "openMenu" })}
       />
     );
@@ -63,6 +70,11 @@ export function FlagGame() {
       onStart={startGame}
     />
   );
+}
+
+/** The names to pick from for these flags in the choice mode; the typing modes need none. */
+function choicesFor(codes: readonly string[], settings: GameSettings): GameChoices {
+  return settings.mode === "choice" ? dealChoices(COUNTRIES, codes, settings) : {};
 }
 
 /** Plays a sound and throws confetti when the game state changes in a way worth celebrating. */

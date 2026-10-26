@@ -5,7 +5,7 @@ Small educational games for kids, under the name **Граймося!** ("Let's p
 - **Знайди тварину** ("Find the animal", `/animals`), for 3-year-olds: three animal photos, the
   game asks for one and plays its sound, and the kid taps it.
 - **Вгадай країну** ("Guess the country", `/flags`): a flag is shown and the kid types the
-  country's name.
+  country's name, or picks it from four names on the easy level.
 
 It is a static site: all data and settings live in the browser (settings in `localStorage`), so it
 deploys to Cloudflare as plain files, with no server.
@@ -29,7 +29,8 @@ Design decisions, the way the photos and sounds were chosen and checked, and ope
 
 - 139 countries; tiny island states and countries a kid in Ukraine hardly ever hears of are left
   out (see `src/games/flags/data/countries.ts`).
-- Three levels: the country's name in Ukrainian, the name and the capital, or the name in English.
+- Four levels: picking the country from four names, or typing the country's name in Ukrainian,
+  the name and the capital, or the name in English.
 - A part of the world to play (all, Europe, Asia, Africa, the Americas) and an easier set of 45
   well-known countries.
 - Rounds of 10 flags without repeats until a new game or a page reload, with a summary, stars and

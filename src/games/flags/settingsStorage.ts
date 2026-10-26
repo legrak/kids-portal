@@ -14,7 +14,7 @@ export const DEFAULT_SETTINGS: StoredSettings = {
 
 const STORAGE_KEY = "kids-portal.flags.settings";
 
-const MODES: readonly GameMode[] = ["country", "countryAndCapital", "english"];
+const MODES: readonly GameMode[] = ["choice", "country", "countryAndCapital", "english"];
 const REGIONS: readonly RegionFilter[] = ["world", "europe", "asia", "africa", "americas"];
 const COUNTRY_SETS: readonly CountrySet[] = ["all", "famous"];
 
