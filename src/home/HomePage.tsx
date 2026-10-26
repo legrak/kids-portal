@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import { animalById } from "../games/animals/data/animals";
+import { Balloon } from "../games/colors/components/Balloon";
+import { colorById } from "../games/colors/data/colors";
 import { FlagImage } from "../games/flags/components/FlagImage";
 import { followLink } from "../router";
 
@@ -22,6 +24,14 @@ const GAMES: GameCard[] = [
     age: "3+",
     picture: <AnimalTrio />,
     colors: "from-lime-200 via-emerald-300 to-sky-300",
+  },
+  {
+    path: "/colors",
+    title: "Знайди колір",
+    description: "Слухай, який колір назвуть, і знайди кульку.",
+    age: "3+",
+    picture: <BalloonBunch />,
+    colors: "from-rose-200 via-amber-200 to-sky-300",
   },
   {
     path: "/flags",
@@ -101,6 +111,27 @@ function AnimalTrio() {
             place === 1 ? "z-10 scale-110" : "translate-y-3"
           }`}
         />
+      ))}
+    </div>
+  );
+}
+
+/** Three balloons, the middle one higher. */
+function BalloonBunch() {
+  const balloons = [
+    { id: "red", tilt: "-rotate-12 translate-y-4" },
+    { id: "yellow", tilt: "z-10 -translate-y-1" },
+    { id: "blue", tilt: "rotate-12 translate-y-4" },
+  ];
+  return (
+    <div
+      className="flex items-center -space-x-5 transition group-hover:scale-105"
+      aria-hidden="true"
+    >
+      {balloons.map(({ id, tilt }) => (
+        <div key={id} className={`w-20 sm:w-24 short:w-16 ${tilt}`}>
+          <Balloon color={colorById(id).hex} className="w-full drop-shadow-lg" />
+        </div>
       ))}
     </div>
   );

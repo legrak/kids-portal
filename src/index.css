@@ -13,6 +13,7 @@
   --animate-star-in: star-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   --animate-rise: rise 0.35s ease-out both;
   --animate-countdown: countdown linear forwards;
+  --animate-fly-away: fly-away 1.8s ease-in forwards;
 
   @keyframes shake {
     0%,
@@ -78,6 +79,16 @@
     to {
       transform: none;
       opacity: 1;
+    }
+  }
+
+  @keyframes fly-away {
+    15% {
+      transform: scale(1.1);
+    }
+    to {
+      transform: translateY(-120vh) rotate(8deg);
+      opacity: 0;
     }
   }
 

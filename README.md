@@ -4,6 +4,8 @@ Small educational games for kids, under the name **Граймося!** ("Let's p
 `/` lists the games; each game has its own path. The UI is in Ukrainian.
 - **Знайди тварину** ("Find the animal", `/animals`), for 3-year-olds: three animal photos, the
   game asks for one and plays its sound, and the kid taps it.
+- **Знайди колір** ("Find the colour", `/colors`), for 3-year-olds: four balloons, the game asks
+  aloud for one in Ukrainian and English ("Де синій? Where is blue?"), and the kid taps it.
 - **Вгадай країну** ("Guess the country", `/flags`): a flag is shown and the kid types the
   country's name, or picks it from four names on the easy level.
 
@@ -24,6 +26,20 @@ deploys to Cloudflare as plain files, with no server.
 
 Design decisions, the way the photos and sounds were chosen and checked, and open questions are in
 [`docs/animal-game/decisions.md`](docs/animal-game/decisions.md).
+
+## The colour game
+
+- 12 everyday colours: red, orange, yellow, green, light blue, blue, purple, pink, brown, black,
+  grey and white. Blue and light blue, both "blue" in English, never share a round.
+- The question is said with the browser's voices and shown as text, in Ukrainian, English or
+  both (the default), as picked on the start screen. Without a voice for a language, the start
+  screen says what happens instead.
+- No score and no losing: a wrong balloon shakes, and the game names its colour and asks again;
+  the right one flies away with confetti, and the game says "Так, це синій!". A colour isn't
+  asked again until all were.
+
+Design decisions and open questions are in
+[`docs/color-game/decisions.md`](docs/color-game/decisions.md).
 
 ## The flag game
 
@@ -85,6 +101,11 @@ src/
     data/animals.ts          animals: names, photo and sound links with their credits
     audio.ts                 the animal sounds and the spoken question
     components/              screens and cards
+  games/colors/
+    data/colors.ts           colours: Ukrainian and English names, shades
+    language.ts              the language picked, saved in the browser
+    speech.ts                what the game says, in the language picked
+    components/              the balloon and the start screen
   games/flags/
     data/countries.ts        countries: names, capitals, regions, tiers
     logic/                   game rules, answer checking, hints, keyboards (unit-tested)
