@@ -1,21 +1,11 @@
-import { useEffect, useState } from "react";
 import { HomeButton } from "../../../components/HomeButton";
-import { voiceFor } from "../../../shared/speech";
+import { LanguageSwitch } from "../../../components/LanguageSwitch";
+import type { GameLanguage } from "../../../shared/language";
 import { colorById } from "../data/colors";
-import {
-  type GameLanguage,
-  LANGUAGE_CHOICES,
-  type Lang,
-  langsOf,
-  missingVoiceNotice,
-} from "../language";
 import { Balloon } from "./Balloon";
 
 /** Balloons on the start screen. */
 const PARADE = ["red", "yellow", "blue", "green"];
-
-/** A browser with no voice at all may never say that its voices have loaded. */
-const VOICES_WAIT_MS = 1500;
 
 interface StartScreenProps {
   language: GameLanguage;
@@ -24,9 +14,6 @@ interface StartScreenProps {
 }
 
 export function StartScreen({ language, onLanguageChange, onStart }: StartScreenProps) {
-  const missing = useMissingVoices();
-  const notice = missing && missingVoiceNotice(language, missing);
-
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col items-center gap-6 px-4 pt-3 pb-8 sm:gap-8 short:gap-3 short:pb-4">
       <div className="flex w-full">
@@ -52,36 +39,7 @@ export function StartScreen({ language, onLanguageChange, onStart }: StartScreen
             Слухай, який колір назвуть, і&nbsp;торкнися кульки такого кольору!
           </p>
         </header>
-        <fieldset className="flex flex-col items-center gap-2">
-          <legend className="mb-2 text-center text-lg font-extrabold text-violet-900">
-            Якою мовою питати?
-          </legend>
-          <div className="flex gap-2">
-            {LANGUAGE_CHOICES.map((choice) => (
-              <button
-                key={choice.value}
-                type="button"
-                aria-pressed={language === choice.value}
-                onClick={() => onLanguageChange(choice.value)}
-                className={`rounded-2xl border-2 border-b-4 px-5 py-2 text-lg font-extrabold transition hover:-translate-y-0.5 active:translate-y-0.5 ${
-                  language === choice.value
-                    ? "border-violet-700 bg-violet-500 text-white shadow-lg shadow-violet-200"
-                    : "border-violet-100 bg-white text-violet-900 shadow-sm hover:border-violet-300"
-                }`}
-              >
-                {choice.label}
-              </button>
-            ))}
-          </div>
-          {notice && (
-            <p
-              role="status"
-              className="max-w-md rounded-2xl bg-amber-100 px-4 py-2 text-center text-sm font-semibold text-balance text-amber-900"
-            >
-              {notice}
-            </p>
-          )}
-        </fieldset>
+        <LanguageSwitch language={language} onChange={onLanguageChange} />
         <button
           type="button"
           onClick={onStart}
@@ -92,27 +50,4 @@ export function StartScreen({ language, onLanguageChange, onStart }: StartScreen
       </div>
     </main>
   );
-}
-
-const voiceCount = () => globalThis.speechSynthesis?.getVoices().length ?? 0;
-
-/**
- * The languages the browser has no voice for, or null while its voices still load. Voices can
- * come late, or a few at a time, so every change of them is looked at again.
- */
-function useMissingVoices(): Lang[] | null {
-  const [count, setCount] = useState(voiceCount);
-  const [waited, setWaited] = useState(false);
-  useEffect(() => {
-    const speech = globalThis.speechSynthesis;
-    const update = () => setCount(voiceCount());
-    speech?.addEventListener("voiceschanged", update);
-    const timer = window.setTimeout(() => setWaited(true), VOICES_WAIT_MS);
-    return () => {
-      speech?.removeEventListener("voiceschanged", update);
-      window.clearTimeout(timer);
-    };
-  }, []);
-  if (count === 0 && !waited) return null;
-  return langsOf("both").filter((lang) => !voiceFor(lang));
 }

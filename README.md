@@ -95,15 +95,14 @@ src/
   router.ts                  the current path and in-app links, with the History API
   home/                      the home page with the list of games
   components/                parts shared by the games
-  shared/                    confetti, synthesized sounds, voices, and the rounds of the games
-                             for little kids (unit-tested)
+  shared/                    confetti, synthesized sounds, voices and languages, and the rounds
+                             of the games for little kids (unit-tested)
   games/animals/
     data/animals.ts          animals: names, photo and sound links with their credits
     audio.ts                 the animal sounds and the spoken question
     components/              screens and cards
   games/colors/
     data/colors.ts           colours: Ukrainian and English names, shades
-    language.ts              the language picked, saved in the browser
     speech.ts                what the game says, in the language picked
     components/              the balloon and the start screen
   games/flags/

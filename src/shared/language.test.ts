@@ -1,7 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { colorById } from "./data/colors";
-import { langsOf, missingVoiceNotice } from "./language";
-import { questionFor, wrongPickFor } from "./speech";
+import { langsOf, missingVoiceNotice, phrasesIn } from "./language";
 
 describe("languages", () => {
   test("both languages come Ukrainian first", () => {
@@ -10,15 +8,12 @@ describe("languages", () => {
   });
 
   test("the phrases follow the language", () => {
-    const blue = colorById("blue");
-    expect(questionFor(blue, "both").map((phrase) => phrase.text)).toEqual([
+    const words = { uk: "Де синій?", en: "Where is blue?" };
+    expect(phrasesIn("both", words).map((phrase) => phrase.text)).toEqual([
       "Де синій?",
       "Where is blue?",
     ]);
-    expect(questionFor(blue, "uk")).toEqual([{ text: "Де синій?", lang: "uk" }]);
-    expect(wrongPickFor(colorById("red"), blue, "en")).toEqual([
-      { text: "That's red. Where is blue?", lang: "en" },
-    ]);
+    expect(phrasesIn("en", words)).toEqual([{ text: "Where is blue?", lang: "en" }]);
   });
 });
 

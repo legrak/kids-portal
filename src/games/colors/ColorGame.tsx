@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { HomeButton } from "../../components/HomeButton";
 import { celebrate } from "../../shared/celebrate";
+import { type GameLanguage, loadLanguage, saveLanguage } from "../../shared/language";
 import { type FindGame, nextRound, pickChoice } from "../../shared/rounds";
 import { allowSoundWithRingerOff, playSound } from "../../shared/sound";
 import { Balloon } from "./components/Balloon";
 import { StartScreen } from "./components/StartScreen";
 import { CHOICE_COUNT, COLORS, colorById } from "./data/colors";
-import { type GameLanguage, loadLanguage, saveLanguage } from "./language";
 import { askFor, praise, praiseFor, questionFor, sayWrongPick, stopSpeaking } from "./speech";
+
+const SETTINGS_KEY = "kids-portal.colors.settings";
 
 /** The found balloon flies away for at least this long before the next four come. */
 const MIN_FOUND_MS = 2600;
@@ -16,11 +18,11 @@ const PAUSE_AFTER_PRAISE_MS = 400;
 
 /** "Find the colour": four balloons, and the game asks aloud for one of them. */
 export function ColorGame() {
-  const [language, setLanguage] = useState<GameLanguage>(loadLanguage);
+  const [language, setLanguage] = useState<GameLanguage>(() => loadLanguage(SETTINGS_KEY));
   const [game, setGame] = useState<FindGame | null>(null);
   const [shakes, setShakes] = useState<Record<string, number>>({});
 
-  useEffect(() => saveLanguage(language), [language]);
+  useEffect(() => saveLanguage(SETTINGS_KEY, language), [language]);
 
   // Silence when the kid leaves the game.
   useEffect(() => stopSpeaking, []);

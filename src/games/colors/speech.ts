@@ -1,20 +1,11 @@
+import { type GameLanguage, phrasesIn } from "../../shared/language";
 import { type Phrase, say } from "../../shared/speech";
 import type { Color } from "./data/colors";
-import { type GameLanguage, langsOf } from "./language";
 
 /** The praise waits for the happy melody to end. */
 const PRAISE_AFTER_MS = 700;
 
 let praiseTimer = 0;
-
-/** The same words in Ukrainian and in English. */
-interface Words {
-  uk: string;
-  en: string;
-}
-
-const phrasesIn = (language: GameLanguage, words: Words): Phrase[] =>
-  langsOf(language).map((lang) => ({ text: words[lang], lang }));
 
 /** The question: "Де синій?", "Where is blue?" or both. */
 export const questionFor = (color: Color, language: GameLanguage): Phrase[] =>
