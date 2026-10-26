@@ -79,10 +79,10 @@ src/
   router.ts                  the current path and in-app links, with the History API
   home/                      the home page with the list of games
   components/                parts shared by the games
-  shared/                    confetti and synthesized sounds
+  shared/                    confetti, synthesized sounds, voices, and the rounds of the games
+                             for little kids (unit-tested)
   games/animals/
     data/animals.ts          animals: names, photo and sound links with their credits
-    logic/                   rounds without repeats or lookalikes (unit-tested)
     audio.ts                 the animal sounds and the spoken question
     components/              screens and cards
   games/flags/

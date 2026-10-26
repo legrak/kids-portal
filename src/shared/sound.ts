@@ -67,6 +67,15 @@ function getAudioContext(): AudioContext | null {
   return audioContext;
 }
 
+/**
+ * Tells iOS that the page plays sound on purpose: otherwise the ringer switch mutes the
+ * synthesized melodies.
+ */
+export function allowSoundWithRingerOff(): void {
+  const session = (navigator as { audioSession?: { type: string } }).audioSession;
+  if (session) session.type = "playback";
+}
+
 /** Plays a short synthesized melody; does nothing where Web Audio is not available. */
 export function playSound(name: SoundName): void {
   const context = getAudioContext();

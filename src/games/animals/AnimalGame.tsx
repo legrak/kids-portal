@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { HomeButton } from "../../components/HomeButton";
 import { celebrate } from "../../shared/celebrate";
+import { type FindGame as Game, nextRound, pickChoice } from "../../shared/rounds";
 import { playSound } from "../../shared/sound";
 import { askAbout, playAnimalSound, preloadPhoto, stopAnimalSounds, unlockAudio } from "./audio";
 import { AnimalCard } from "./components/AnimalCard";
 import { StartScreen } from "./components/StartScreen";
-import { ANIMALS, type Animal, animalById } from "./data/animals";
-import { type AnimalGame as Game, nextRound, pickAnimal } from "./logic/game";
+import { ANIMALS, type Animal, animalById, CHOICE_COUNT } from "./data/animals";
 
 /** How long the found animal stays on screen before the next three come. */
 const NEXT_ROUND_AFTER_MS = 2600;
@@ -19,7 +19,10 @@ interface Play {
   next: Game;
 }
 
-const playFrom = (game: Game): Play => ({ current: game, next: nextRound(ANIMALS, game) });
+const playFrom = (game: Game): Play => ({
+  current: game,
+  next: nextRound(ANIMALS, game, CHOICE_COUNT),
+});
 
 /** "Find the animal": three animal photos, and the game asks for one of them by its sound. */
 export function AnimalGame() {
@@ -48,7 +51,7 @@ export function AnimalGame() {
   function start() {
     // The tap on Play lets the game play sounds from now on.
     unlockAudio();
-    const first = playFrom(nextRound(ANIMALS, null));
+    const first = playFrom(nextRound(ANIMALS, null, CHOICE_COUNT));
     setPlay(first);
     ask(animalById(first.current.round.target));
   }
@@ -60,7 +63,7 @@ export function AnimalGame() {
 
   function pick(id: string) {
     if (!play || round.found) return;
-    const picked = pickAnimal(round, id);
+    const picked = pickChoice(round, id);
     if (picked.found) {
       stopAnimalSounds();
       playSound("correct");

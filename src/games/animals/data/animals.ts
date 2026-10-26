@@ -1,4 +1,7 @@
-import type { AnimalKind } from "../logic/game";
+import type { RoundItem } from "../../../shared/rounds";
+
+/** How many animals each round shows. */
+export const CHOICE_COUNT = 3;
 
 /** Where a photo or a recording comes from, as its licence asks to say. */
 export interface Credit {
@@ -24,7 +27,7 @@ export interface AnimalSound extends Credit {
   end?: number;
 }
 
-export interface Animal extends AnimalKind {
+export interface Animal extends RoundItem {
   /** The Ukrainian name, as the game asks: "Де корова?" */
   name: string;
   photo: AnimalPhoto;

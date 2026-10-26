@@ -1,3 +1,5 @@
+import { allowSoundWithRingerOff } from "../../shared/sound";
+import { voiceFor } from "../../shared/speech";
 import type { AnimalSound } from "./data/animals";
 
 /** If the voice never says it has finished, the animal's sound starts after this anyway. */
@@ -35,8 +37,7 @@ function silence(): string {
 
 /**
  * Must run inside a tap. iOS lets a page play sound later, from a timer, only once the same
- * player has played inside a tap; it also mutes Web Audio with the ringer switch unless told
- * that the page plays sound on purpose.
+ * player has played inside a tap.
  */
 export function unlockAudio(): void {
   const audio = getPlayer();
@@ -44,8 +45,7 @@ export function unlockAudio(): void {
     audio.src = silence();
     void audio.play().catch(() => {});
   }
-  const session = (navigator as { audioSession?: { type: string } }).audioSession;
-  if (session) session.type = "playback";
+  allowSoundWithRingerOff();
 }
 
 const clipUrl = ({ url, start, end }: AnimalSound) =>
@@ -69,20 +69,11 @@ export function stopAnimalSounds(): void {
   player?.pause();
 }
 
-function ukrainianVoice(): SpeechSynthesisVoice | undefined {
-  return window.speechSynthesis
-    ?.getVoices()
-    .find((voice) => voice.lang.toLowerCase().replace("_", "-").startsWith("uk"));
-}
-
-// Browsers load the voices in the background; asking early has them ready by the first question.
-window.speechSynthesis?.getVoices();
-
 /** Asks aloud where the animal is, when the browser has a Ukrainian voice, then plays its sound. */
 export function askAbout(name: string, sound: AnimalSound): void {
   const ask = ++current;
   player?.pause();
-  const voice = ukrainianVoice();
+  const voice = voiceFor("uk");
   if (!voice) {
     play(sound);
     return;

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import { CHOICE_COUNT, makeRound } from "../logic/game";
-import { ANIMALS, animalById } from "./animals";
+import { makeRound } from "../../../shared/rounds";
+import { ANIMALS, animalById, CHOICE_COUNT } from "./animals";
 
 const COMMONS_FILE = /^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\//;
 // Wikimedia serves thumbnails in standard widths only.
@@ -40,7 +40,7 @@ describe("animals", () => {
 
   test("every animal can be asked about", () => {
     for (const animal of ANIMALS) {
-      expect(makeRound(animal, ANIMALS).choices).toHaveLength(CHOICE_COUNT);
+      expect(makeRound(animal, ANIMALS, CHOICE_COUNT).choices).toHaveLength(CHOICE_COUNT);
     }
   });
 
