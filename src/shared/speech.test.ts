@@ -97,6 +97,27 @@ describe("say", () => {
     expect(onDone).toHaveBeenCalledTimes(1);
   });
 
+  test("waits longer for long phrases from a voice that never says it has finished", () => {
+    const realSetTimeout = globalThis.setTimeout;
+    const delays: number[] = [];
+    globalThis.setTimeout = ((_: () => void, delay: number) => {
+      delays.push(delay);
+      return 0;
+    }) as unknown as typeof setTimeout;
+    try {
+      say(phrases, () => {});
+      say(
+        [{ text: "Так! Це шкільне приладдя, а скрипка — це музичний інструмент.", lang: "uk" }],
+        () => {},
+      );
+    } finally {
+      globalThis.setTimeout = realSetTimeout;
+    }
+
+    expect(delays[0]).toBe(6000);
+    expect(delays[1]).toBeGreaterThan(7000);
+  });
+
   test("is done at once with nothing to say", () => {
     voices = [];
     const onDone = mock();
