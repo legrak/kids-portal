@@ -2,6 +2,7 @@ import { type ReactNode, useEffect } from "react";
 import { AnimalGame } from "./games/animals/AnimalGame";
 import { ColorGame } from "./games/colors/ColorGame";
 import { FlagGame } from "./games/flags/FlagGame";
+import { OddOneOutGame } from "./games/odd-one-out/OddOneOutGame";
 import { HomePage } from "./home/HomePage";
 import { usePath } from "./router";
 
@@ -11,6 +12,7 @@ const PAGES: Record<string, { title: string; render: () => ReactNode }> = {
   "/flags": { title: "Вгадай країну", render: () => <FlagGame /> },
   "/animals": { title: "Знайди тварину", render: () => <AnimalGame /> },
   "/colors": { title: "Знайди колір", render: () => <ColorGame /> },
+  "/odd-one-out": { title: "Знайди зайве", render: () => <OddOneOutGame /> },
 };
 
 export function App() {

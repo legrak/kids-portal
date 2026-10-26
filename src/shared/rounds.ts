@@ -95,7 +95,7 @@ export function nextRound(
 }
 
 /** The round after the kid taps one of the things shown. */
-export function pickChoice(round: Round, id: string): Round {
+export function pickChoice<R extends Round>(round: R, id: string): R {
   if (round.found || !round.choices.includes(id)) return round;
   if (id === round.target) return { ...round, found: true };
   if (round.wrongPicks.includes(id)) return round;

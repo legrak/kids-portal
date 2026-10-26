@@ -6,6 +6,8 @@ Small educational games for kids, under the name **Граймося!** ("Let's p
   game asks for one and plays its sound, and the kid taps it.
 - **Знайди колір** ("Find the colour", `/colors`), for 3-year-olds: four balloons, the game asks
   aloud for one in Ukrainian and English ("Де синій? Where is blue?"), and the kid taps it.
+- **Знайди зайве** ("Find the odd one out", `/odd-one-out`), for 4-year-olds: four pictures, three
+  of one category and one of another, and the kid taps the odd one.
 - **Вгадай країну** ("Guess the country", `/flags`): a flag is shown and the kid types the
   country's name, or picks it from four names on the easy level.
 
@@ -41,6 +43,24 @@ Design decisions, the way the photos and sounds were chosen and checked, and ope
 
 Design decisions and open questions are in
 [`docs/color-game/decisions.md`](docs/color-game/decisions.md).
+
+## The odd-one-out game
+
+- 21 categories, 158 pictures: fruit, vegetables, berries, sweets, vehicles, domestic,
+  forest and hot-country animals, birds, insects, sea animals, clothes, shoes, kitchen things,
+  tools, musical instruments, school things, toys, sport, flowers and devices.
+- Close categories mix too (fruit and vegetables, forest and domestic animals), but a picture a kid
+  could count in both is never the odd one: a duck is never the odd one next to three cows and
+  pigs. A bear and a teddy bear never share a round.
+- The game asks "Що тут зайве?", "Which one doesn't belong?" or both, as picked on the start
+  screen, and after the right tap says why: "Так! Це фрукти, а машина — це транспорт." A wrong
+  tap shakes the card, and the game names the picture: "Яблуко — це фрукт." No score and no
+  losing; every category gets its turn as the three before any has another.
+- The pictures are [Fluent Emoji](https://github.com/microsoft/fluentui-emoji) 3D renders, kept in
+  `public/fluent-emoji/` as WebP.
+
+Design decisions and open questions are in
+[`docs/odd-one-out/decisions.md`](docs/odd-one-out/decisions.md).
 
 ## The flag game
 
@@ -106,6 +126,11 @@ src/
     data/colors.ts           colours: Ukrainian and English names, shades
     speech.ts                what the game says, in the language picked
     components/              the balloon and the start screen
+  games/odd-one-out/
+    data/things.ts           categories and things: names, the categories a thing also fits
+    rounds.ts                three of one category and the odd one (unit-tested)
+    speech.ts                the question and the explanations, in the language picked
+    components/              the picture card and the start screen
   games/flags/
     data/countries.ts        countries: names, capitals, regions, tiers
     logic/                   game rules, answer checking, hints, keyboards (unit-tested)
@@ -124,5 +149,7 @@ docs/                        decision logs per game
 - Animal photos and sounds: [Wikimedia Commons](https://commons.wikimedia.org/), each under its
   own licence (CC0, public domain, CC BY or CC BY-SA); the authors are listed in the game and in
   `src/games/animals/data/animals.ts`.
+- Pictures of the odd-one-out game: [Fluent Emoji](https://github.com/microsoft/fluentui-emoji)
+  by Microsoft (MIT), converted to WebP.
 - Confetti: [canvas-confetti](https://github.com/catdad/canvas-confetti) (ISC).
 - Font: [Nunito](https://fonts.google.com/specimen/Nunito) via Fontsource (OFL 1.1).

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { makeRound, nextRound, pickChoice, type RoundItem, shuffle } from "./rounds";
+import { makeRound, nextRound, pickChoice, type Round, type RoundItem, shuffle } from "./rounds";
 
 const COUNT = 3;
 
@@ -89,7 +89,12 @@ describe("nextRound", () => {
 });
 
 describe("pickChoice", () => {
-  const round = { target: "cow", choices: ["cat", "cow", "pig"], wrongPicks: [], found: false };
+  const round: Round = {
+    target: "cow",
+    choices: ["cat", "cow", "pig"],
+    wrongPicks: [],
+    found: false,
+  };
 
   test("finds the target", () => {
     expect(pickChoice(round, "cow")).toEqual({ ...round, found: true });

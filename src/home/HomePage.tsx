@@ -3,6 +3,7 @@ import { animalById } from "../games/animals/data/animals";
 import { Balloon } from "../games/colors/components/Balloon";
 import { colorById } from "../games/colors/data/colors";
 import { FlagImage } from "../games/flags/components/FlagImage";
+import { pictureUrl } from "../games/odd-one-out/data/things";
 import { followLink } from "../router";
 
 interface GameCard {
@@ -32,6 +33,14 @@ const GAMES: GameCard[] = [
     age: "3+",
     picture: <BalloonBunch />,
     colors: "from-rose-200 via-amber-200 to-sky-300",
+  },
+  {
+    path: "/odd-one-out",
+    title: "Знайди зайве",
+    description: "Три картинки разом, а\u00a0одна\u00a0— зайва. Знайди її!",
+    age: "4+",
+    picture: <OddFour />,
+    colors: "from-amber-200 via-pink-200 to-violet-300",
   },
   {
     path: "/flags",
@@ -131,6 +140,24 @@ function BalloonBunch() {
       {balloons.map(({ id, tilt }) => (
         <div key={id} className={`w-20 sm:w-24 short:w-16 ${tilt}`}>
           <Balloon color={colorById(id).hex} className="w-full drop-shadow-lg" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** Three fruits and a car, the odd one ringed. */
+function OddFour() {
+  return (
+    <div className="flex items-center gap-2 transition group-hover:scale-105" aria-hidden="true">
+      {["apple", "banana", "pear", "car"].map((id) => (
+        <div
+          key={id}
+          className={`h-14 w-14 rounded-2xl bg-white p-1.5 shadow-lg sm:h-20 sm:w-20 sm:p-2 short:h-14 short:w-14 ${
+            id === "car" ? "ring-4 ring-emerald-400" : ""
+          }`}
+        >
+          <img src={pictureUrl(id)} alt="" className="h-full w-full object-contain" />
         </div>
       ))}
     </div>
